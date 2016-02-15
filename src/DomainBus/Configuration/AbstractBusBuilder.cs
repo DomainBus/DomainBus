@@ -100,7 +100,7 @@ namespace DomainBus.Configuration
             var d= new ServiceBus(container,dispatcher,_host,_dispBuilder.Receiver);
             RegisterSingletonInstance(d);
             RegisterInstanceFactory(d.GetDispatcher);
-
+            ContainerConfigurationCompleted();
             if (start)
             {
                 d.StartProcessors();

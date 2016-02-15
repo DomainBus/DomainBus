@@ -1,5 +1,5 @@
 ﻿{
-  "version": "4.0.0-pre-0",
+  "version": "4.0.0-pre-1",
   "description": "A powerful but light and easy to use service bus for monoliths and distributed apps",
   "authors": [ "Mihai Mogosanu" ],
   "tags": [ "servicebus","domain","ddd","messagebus","bus"],
