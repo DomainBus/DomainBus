@@ -19,10 +19,9 @@ namespace DomainBus.Transport
         
         public async Task Send(EnvelopeTo envelope)
         {
-            using (var store = _factory())
-            {
-                await store.Add(_processorName, envelope.Messages).ConfigureAwait(false);
-            }
+            var store = _factory();
+            await store.Add(_processorName, envelope.Messages).ConfigureAwait(false);
+            
         }
     }
 }
