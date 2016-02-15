@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using DomainBus.Processing;
 
 namespace DomainBus.Abstractions
 {
-    public interface IAddMessageToProcessorStorage:IDisposable
+    public interface IAddMessageToProcessorStorage
     {
         /// <summary>
         /// Duplicate messages should be ignored.
