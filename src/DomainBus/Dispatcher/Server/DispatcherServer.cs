@@ -39,8 +39,15 @@ namespace DomainBus.Dispatcher.Server
 
         public void ReceiveConfigurations(IEnumerable<EndpointMessagesConfig> update)
         {
-            _state.Update(update);
-            _config.Storage.Save(_state);
+            try
+            {
+                _state.Update(update);
+                _config.Storage.Save(_state);
+            }
+            catch (Exception ex)
+            {
+                this.LogError(ex);
+            }
             
         }
     

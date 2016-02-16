@@ -14,16 +14,23 @@ namespace DomainBus.Transport
             var items = GetMessages();
             items.ForEach(env =>
             {
-                var t = _dispatcher.DeliverToLocalProcessors(env);
-                t.ContinueWith(tsk =>
+                try
                 {
-                    if (!tsk.IsFaulted)
+                    var t = _dispatcher.DeliverToLocalProcessors(env);
+                    t.ContinueWith(tsk =>
                     {
-                        MarkAsHandled(env);
-                        return;
-                    }
-                    this.LogError(tsk.Exception);
-                });
+                        if (!tsk.IsFaulted)
+                        {
+                            MarkAsHandled(env);
+                            return;
+                        }
+                        this.LogError(tsk.Exception);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    this.LogError(ex);
+                }
             });
         }
 
