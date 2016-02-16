@@ -45,7 +45,7 @@ namespace DomainBus.Dispatcher.Server
         }
     
 
-        public Task Route(EnvelopeFrom envelope)
+        public Task Route(EnvelopeFromClient envelope)
         {
             var delivery = _state.GetEnvelopes(envelope)
                 .Select(d =>
@@ -62,7 +62,7 @@ namespace DomainBus.Dispatcher.Server
            return Task.WhenAll(delivery);
         }
 
-        private async Task Send(IDeliverToEndpoint transporter, EnvelopeTo envelopeTo)
+        private async Task Send(IDeliverToEndpoint transporter, EnvelopeToClient envelopeTo)
         {
             try
             {

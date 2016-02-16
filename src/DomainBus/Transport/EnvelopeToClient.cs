@@ -4,7 +4,7 @@ using DomainBus.Configuration;
 
 namespace DomainBus.Transport
 {
-    public class EnvelopeTo
+    public class EnvelopeToClient
     {
         
         public IMessage[] Messages { get; set; } = Array.Empty<IMessage>();

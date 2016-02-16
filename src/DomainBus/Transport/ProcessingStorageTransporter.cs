@@ -17,7 +17,7 @@ namespace DomainBus.Transport
             _processorName = processorName;
         }
         
-        public async Task Send(EnvelopeTo envelope)
+        public async Task Send(EnvelopeToClient envelope)
         {
             var store = _factory();
             await store.Add(_processorName, envelope.Messages).ConfigureAwait(false);

@@ -55,14 +55,14 @@ namespace Tests.Dispatcher
         public async Task routing_messages_for_each_endpoint()
         {
             var myEvent = new MyEvent();
-            var env=new EnvelopeFrom()
+            var env=new EnvelopeFromClient()
             {
                 From ="some host",
                 Messages = new IMessage[] {myEvent,new OtherEvent()}
             };
 
-            EnvelopeTo dest = null;
-            await _transporter.Send(Arg.Do<EnvelopeTo>(e => dest = e));
+            EnvelopeToClient dest = null;
+            await _transporter.Send(Arg.Do<EnvelopeToClient>(e => dest = e));
 
             await _sut.Route(env);
 
@@ -75,13 +75,13 @@ namespace Tests.Dispatcher
         public async Task messages_arent_sent_back_to_origin()
         {
             var myEvent = new MyEvent();
-            var env=new EnvelopeFrom()
+            var env=new EnvelopeFromClient()
             {
                 From =Setup.TestEndpoint.Host,
                 Messages = new IMessage[] {myEvent,new OtherEvent()}
             };
 
-            EnvelopeTo dest = null;
+            EnvelopeToClient dest = null;
           
             await _sut.Route(env);
 
@@ -92,7 +92,7 @@ namespace Tests.Dispatcher
         [Fact]
         public async Task if_transport_doesnt_exist_nothing_happens()
         {
-            var env = new EnvelopeFrom()
+            var env = new EnvelopeFromClient()
             {
                 From = Setup.TestEndpoint.Host,
                 Messages = new IMessage[] { new MyEvent(), new OtherEvent() }
@@ -109,9 +109,9 @@ namespace Tests.Dispatcher
         [Fact]
         public async Task transporter_error_goes_to_err_queue()
         {
-            var exception = new CouldntSendMessagesException(new EnvelopeTo(), "", new Exception());
-            _transporter.Send(Arg.Any<EnvelopeTo>()).Throws(exception);
-            var env = new EnvelopeFrom()
+            var exception = new CouldntSendMessagesException(new EnvelopeToClient(), "", new Exception());
+            _transporter.Send(Arg.Any<EnvelopeToClient>()).Throws(exception);
+            var env = new EnvelopeFromClient()
             {
                 From = "other",
                 Messages = new IMessage[] { new MyEvent(), new OtherEvent() }

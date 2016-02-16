@@ -12,6 +12,6 @@ namespace DomainBus.Dispatcher.Client
             
         }
 
-        public Task SendMessages(EnvelopeFrom envelope) => TasksUtils.EmptyTask();
+        public Task SendMessages(EnvelopeFromClient envelope) => TasksUtils.EmptyTask();
     }
 }

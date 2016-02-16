@@ -61,8 +61,8 @@ namespace Tests.Dispatcher
         {
             var myEvent = new MyEvent();
             var command = new MyCommand();
-            EnvelopeFrom env = null;
-            await _server.SendMessages(Arg.Do<EnvelopeFrom>(e => env = e));
+            EnvelopeFromClient env = null;
+            await _server.SendMessages(Arg.Do<EnvelopeFromClient>(e => env = e));
 
             await _sut.Dispatch(myEvent,command);
             await _config.Received(1).AddToProcessing(Arg.Any<MyEvent>(), Arg.Any<MyCommand>());
@@ -88,8 +88,8 @@ namespace Tests.Dispatcher
         [Fact]
         public async Task if_server_communicator_throws_error_is_sent_to_err_queue()
         {
-            var exception = new CouldntSendMessagesException(new EnvelopeFrom(), "", new Exception());
-            _server.SendMessages(Arg.Any<EnvelopeFrom>()).Throws(exception);
+            var exception = new CouldntSendMessagesException(new EnvelopeFromClient(), "", new Exception());
+            _server.SendMessages(Arg.Any<EnvelopeFromClient>()).Throws(exception);
             await _sut.Dispatch(new MyEvent());
             _err.Received(1).TransporterError(exception);
         }
@@ -98,7 +98,7 @@ namespace Tests.Dispatcher
         public async Task receive_message_from_server()
         {
          
-            var to = new EnvelopeTo() {To=Setup.TestEndpoint,Messages = new [] {new MyEvent() }};
+            var to = new EnvelopeToClient() {To=Setup.TestEndpoint,Messages = new [] {new MyEvent() }};
             await _sut.DeliverToLocalProcessors(to).ConfigureFalse();
             await _config.Received(1).AddToProcessing(Arg.Any<MyEvent>());
         }
@@ -106,7 +106,7 @@ namespace Tests.Dispatcher
         [Fact]
         public async Task receiving_for_unkown_endpoint_sents_to_err_queue()
         {
-            var to = new EnvelopeTo() { To = new EndpointId("other","locat"), Messages = new[] { new MyEvent() } };
+            var to = new EnvelopeToClient() { To = new EndpointId("other","locat"), Messages = new[] { new MyEvent() } };
             await _sut.DeliverToLocalProcessors(to).ConfigureFalse();
             _err.Received(1).UnknownEndpoint(Arg.Any<EndpointNotFoundException>());
             await _config.DidNotReceive().AddToProcessing(Arg.Any<MyEvent>());
@@ -115,7 +115,7 @@ namespace Tests.Dispatcher
         [Fact]
         public async Task received_messages_are_not_sent_to_server()
         {
-            var to = new EnvelopeTo() { To = new EndpointId("other", "locat"), Messages = new[] { new MyEvent() } };
+            var to = new EnvelopeToClient() { To = new EndpointId("other", "locat"), Messages = new[] { new MyEvent() } };
             await _sut.DeliverToLocalProcessors(to).ConfigureFalse();
             await _server.DidNotReceiveWithAnyArgs().SendMessages(null);
         }
@@ -123,7 +123,7 @@ namespace Tests.Dispatcher
         [Fact]
         public async Task received_but_unkown_messages_are_rejected()
         {
-            var to = new EnvelopeTo() { To = Setup.TestEndpoint, Messages = new IMessage[] { new MyEvent(),new LocalEvent()  } };
+            var to = new EnvelopeToClient() { To = Setup.TestEndpoint, Messages = new IMessage[] { new MyEvent(),new LocalEvent()  } };
             await _sut.DeliverToLocalProcessors(to);
             await _config.Received(1).AddToProcessing(Arg.Any<MyEvent>());
             await _config.DidNotReceive().AddToProcessing(Arg.Any<LocalEvent>());

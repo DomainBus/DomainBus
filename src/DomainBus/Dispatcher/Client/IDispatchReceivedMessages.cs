@@ -11,7 +11,7 @@ namespace DomainBus.Dispatcher.Client
         /// <exception cref="EndpointNotFoundException"></exception>
         /// <param name="envelope"></param>
         /// <returns></returns>
-        Task DeliverToLocalProcessors(EnvelopeTo envelope);
+        Task DeliverToLocalProcessors(EnvelopeToClient envelope);
     }
 }
 

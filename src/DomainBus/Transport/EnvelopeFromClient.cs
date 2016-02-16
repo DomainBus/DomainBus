@@ -3,7 +3,7 @@ using DomainBus.Abstractions;
 
 namespace DomainBus.Transport
 {
-    public class EnvelopeFrom
+    public class EnvelopeFromClient
     {
         
         public IMessage[] Messages { get; set; } = Array.Empty<IMessage>();

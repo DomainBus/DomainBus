@@ -53,7 +53,7 @@ namespace DomainBus.Dispatcher.Client
             if (toRelay.Length == 0) return;
             try
             {
-                await _server.SendMessages(new EnvelopeFrom()
+                await _server.SendMessages(new EnvelopeFromClient()
                 {
                     From = _hostName,Messages = toRelay
                 }).ConfigureFalse();
@@ -89,7 +89,7 @@ namespace DomainBus.Dispatcher.Client
         /// <exception cref="EndpointNotFoundException"></exception>
         /// <param name="envelope"></param>
         /// <returns></returns>
-        public async Task DeliverToLocalProcessors(EnvelopeTo envelope)
+        public async Task DeliverToLocalProcessors(EnvelopeToClient envelope)
         {
             if (envelope.Messages.Length == 0)
             {

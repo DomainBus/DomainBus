@@ -5,6 +5,6 @@ namespace DomainBus.Dispatcher.Server
 {
     public interface IRouteMessages
     {
-        Task Route(EnvelopeFrom envelope);
+        Task Route(EnvelopeFromClient envelope);
     }
 }

@@ -50,14 +50,14 @@ namespace DomainBus.Dispatcher.Server
             => messages.Where(m => msgTypes.Contains(m.GetType().AsMessageName()));
         
        
-        public EnvelopeTo[] GetEnvelopes(EnvelopeFrom envelope)
+        public EnvelopeToClient[] GetEnvelopes(EnvelopeFromClient envelope)
         {
             IEnumerable<KeyValuePair<EndpointId, string[]>> items= Items;
           
             return items
                     .Where(d => d.Key.Host != envelope.From)
                     .Select(kv =>
-                        new EnvelopeTo()
+                        new EnvelopeToClient()
                         {
                             To = kv.Key,
                             Messages = FilterEndpointMessages(kv.Value, envelope.Messages).ToArray()

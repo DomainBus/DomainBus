@@ -14,7 +14,7 @@ namespace DomainBus.Dispatcher.Client
         /// <param name="envelope"></param>
         /// <exception cref="DomainBus.Transport.CouldntSendMessagesException"></exception>
         /// <returns></returns>
-        Task SendMessages(EnvelopeFrom envelope);
+        Task SendMessages(EnvelopeFromClient envelope);
 
     }
 }
