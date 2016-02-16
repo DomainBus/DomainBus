@@ -73,7 +73,7 @@ namespace DomainBus.Dispatcher.Server
                 this.LogError(ex);
                 _config.DeliveryErrorsQueue.TransporterError(ex);
             }
-            //we need the server to not crush if one transporter throws an unhandled exception
+            //we need the server to not crash if one transporter throws an unhandled exception
             catch (Exception ex)
             {
                 this.LogError(ex);
