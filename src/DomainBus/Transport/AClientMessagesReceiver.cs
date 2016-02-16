@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using CavemanTools.Logging;
 using DomainBus.Dispatcher.Server;
 
@@ -19,16 +20,23 @@ namespace DomainBus.Transport
 
             items.ForEach(d =>
             {
-                var t = _server.Route(d);;
-                t.ContinueWith((tsk) =>
+                try
                 {
-                    if (!tsk.IsFaulted)
+                    var t = _server.Route(d);
+                    t.ContinueWith((tsk) =>
                     {
-                        MarkAsHandled(d);
-                        return;
-                    }
-                    this.LogError(tsk.Exception);
-                });
+                        if (!tsk.IsFaulted)
+                        {
+                            MarkAsHandled(d);
+                            return;
+                        }
+                        this.LogError(tsk.Exception);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    this.LogError(ex);
+                }
             });
             
             

@@ -20,6 +20,11 @@ namespace DomainBus.Transport
             _timer.Change(0.ToSeconds(), PollingInterval);
         }
 
+        public void Stop()
+        {
+            _timer.Change(-1, Timeout.Infinite);
+        }
+
         public TimeSpan PollingInterval { get; set; }
         public void Dispose()
         {

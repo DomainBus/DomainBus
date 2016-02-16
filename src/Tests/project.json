@@ -11,7 +11,8 @@
     "frameworks": {
         "dnx46": {
             "dependencies": {
-                "NSubstitute": "1.9.2"
+                "NSubstitute": "1.9.2",
+                "AutoFixture.AutoNSubstitute": "3.40.0"
             },
             "frameworkAssemblies": {
                 "System.Runtime": "4.0.20.0",
@@ -22,6 +23,7 @@
     },
     "dependencies": {
         "xunit": "2.2.0-beta1-build3239",
+        "AutoFixture": "3.40.0",
         "FluentAssertions": "4.2.1",
         "xunit.runner.dnx": "2.1.0-rc1-build204",
         "Microsoft.Extensions.PlatformAbstractions": "1.0.0-*",

@@ -3,7 +3,38 @@
   "version": 2,
   "targets": {
     "DNX,Version=v4.6": {
-      "CavemanTools/4.0.0-pre-8": {
+      "autofixture/3.40.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Ploeh.AutoFixture.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Ploeh.AutoFixture.dll": {}
+        }
+      },
+      "AutoFixture/3.40.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Ploeh.AutoFixture.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Ploeh.AutoFixture.dll": {}
+        }
+      },
+      "AutoFixture.AutoNSubstitute/3.40.0": {
+        "type": "package",
+        "dependencies": {
+          "autofixture": "3.40.0",
+          "NSubstitute": "1.5.0"
+        },
+        "compile": {
+          "lib/net40/Ploeh.AutoFixture.AutoNSubstitute.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Ploeh.AutoFixture.AutoNSubstitute.dll": {}
+        }
+      },
+      "CavemanTools/4.0.0-pre0-9": {
         "type": "package",
         "dependencies": {
           "FluentAssertions": "4.2.1"
@@ -26,7 +57,7 @@
         "type": "project",
         "framework": ".NETFramework,Version=v4.6",
         "dependencies": {
-          "CavemanTools": "4.0.0-pre-8"
+          "CavemanTools": "4.0.0-pre"
         }
       },
       "FluentAssertions/4.2.1": {
@@ -294,7 +325,38 @@
       }
     },
     "DNX,Version=v4.6/win7-x86": {
-      "CavemanTools/4.0.0-pre-8": {
+      "autofixture/3.40.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Ploeh.AutoFixture.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Ploeh.AutoFixture.dll": {}
+        }
+      },
+      "AutoFixture/3.40.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Ploeh.AutoFixture.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Ploeh.AutoFixture.dll": {}
+        }
+      },
+      "AutoFixture.AutoNSubstitute/3.40.0": {
+        "type": "package",
+        "dependencies": {
+          "autofixture": "3.40.0",
+          "NSubstitute": "1.5.0"
+        },
+        "compile": {
+          "lib/net40/Ploeh.AutoFixture.AutoNSubstitute.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Ploeh.AutoFixture.AutoNSubstitute.dll": {}
+        }
+      },
+      "CavemanTools/4.0.0-pre0-9": {
         "type": "package",
         "dependencies": {
           "FluentAssertions": "4.2.1"
@@ -317,7 +379,7 @@
         "type": "project",
         "framework": ".NETFramework,Version=v4.6",
         "dependencies": {
-          "CavemanTools": "4.0.0-pre-8"
+          "CavemanTools": "4.0.0-pre"
         }
       },
       "FluentAssertions/4.2.1": {
@@ -585,7 +647,38 @@
       }
     },
     "DNX,Version=v4.6/win7-x64": {
-      "CavemanTools/4.0.0-pre-8": {
+      "autofixture/3.40.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Ploeh.AutoFixture.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Ploeh.AutoFixture.dll": {}
+        }
+      },
+      "AutoFixture/3.40.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Ploeh.AutoFixture.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Ploeh.AutoFixture.dll": {}
+        }
+      },
+      "AutoFixture.AutoNSubstitute/3.40.0": {
+        "type": "package",
+        "dependencies": {
+          "autofixture": "3.40.0",
+          "NSubstitute": "1.5.0"
+        },
+        "compile": {
+          "lib/net40/Ploeh.AutoFixture.AutoNSubstitute.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Ploeh.AutoFixture.AutoNSubstitute.dll": {}
+        }
+      },
+      "CavemanTools/4.0.0-pre0-9": {
         "type": "package",
         "dependencies": {
           "FluentAssertions": "4.2.1"
@@ -608,7 +701,7 @@
         "type": "project",
         "framework": ".NETFramework,Version=v4.6",
         "dependencies": {
-          "CavemanTools": "4.0.0-pre-8"
+          "CavemanTools": "4.0.0-pre"
         }
       },
       "FluentAssertions/4.2.1": {
@@ -881,12 +974,48 @@
       "type": "project",
       "path": "../DomainBus/project.json"
     },
-    "CavemanTools/4.0.0-pre-8": {
+    "autofixture/3.40.0": {
       "type": "package",
-      "sha512": "IBoJeff9q8U2gB3noVb6oPBE93AwG96CfL2WDWH9RX+6OLRa5M5wjjHVkqA3cWwFxOJ/ZWJegYmLa5joQBsneA==",
+      "sha512": "UW7awBkmdhkeMV/recHrFQYTlpsBn/Z+G6/IeN3ihErm3Ia9AUTRGdaikDsMtFsUVRjlfn97xSpetHg2sqkZqQ==",
       "files": [
-        "CavemanTools.4.0.0-pre-8.nupkg",
-        "CavemanTools.4.0.0-pre-8.nupkg.sha512",
+        "AutoFixture.3.40.0.nupkg",
+        "AutoFixture.3.40.0.nupkg.sha512",
+        "AutoFixture.nuspec",
+        "lib/net40/Ploeh.AutoFixture.dll",
+        "lib/net40/Ploeh.AutoFixture.XML",
+        "tools/Install.ps1"
+      ]
+    },
+    "AutoFixture/3.40.0": {
+      "type": "package",
+      "sha512": "UW7awBkmdhkeMV/recHrFQYTlpsBn/Z+G6/IeN3ihErm3Ia9AUTRGdaikDsMtFsUVRjlfn97xSpetHg2sqkZqQ==",
+      "files": [
+        "AutoFixture.3.40.0.nupkg",
+        "AutoFixture.3.40.0.nupkg.sha512",
+        "AutoFixture.nuspec",
+        "lib/net40/Ploeh.AutoFixture.dll",
+        "lib/net40/Ploeh.AutoFixture.XML",
+        "tools/Install.ps1"
+      ]
+    },
+    "AutoFixture.AutoNSubstitute/3.40.0": {
+      "type": "package",
+      "sha512": "Ad+YotxLN/gtMnbsrlRy2p9vPJq27cprN0E+ljcrOrmIZqXwen9JCdVm1I5PHiGgfScPAAatQCydsGKT6kMNjg==",
+      "files": [
+        "AutoFixture.AutoNSubstitute.3.40.0.nupkg",
+        "AutoFixture.AutoNSubstitute.3.40.0.nupkg.sha512",
+        "AutoFixture.AutoNSubstitute.nuspec",
+        "lib/net40/Ploeh.AutoFixture.AutoNSubstitute.dll",
+        "lib/net40/Ploeh.AutoFixture.AutoNSubstitute.XML",
+        "tools/Install.ps1"
+      ]
+    },
+    "CavemanTools/4.0.0-pre0-9": {
+      "type": "package",
+      "sha512": "7CWcXhwnmW2Qgoc5pR0JfpFzRH0DrXPoJBwm9VSZp83vyI5GhdgJ0DT0Ebg5tMPAmTxWby8Jk5Hg79NjlijRZg==",
+      "files": [
+        "CavemanTools.4.0.0-pre0-9.nupkg",
+        "CavemanTools.4.0.0-pre0-9.nupkg.sha512",
         "CavemanTools.nuspec",
         "lib/dotnet5.4/CavemanTools.dll",
         "lib/dotnet5.4/CavemanTools.xml",
@@ -1307,6 +1436,7 @@
   "projectFileDependencyGroups": {
     "": [
       "xunit >= 2.2.0-beta1-build3239",
+      "AutoFixture >= 3.40.0",
       "FluentAssertions >= 4.2.1",
       "xunit.runner.dnx >= 2.1.0-rc1-build204",
       "Microsoft.Extensions.PlatformAbstractions >= 1.0.0-*",
@@ -1314,6 +1444,7 @@
     ],
     "DNX,Version=v4.6": [
       "NSubstitute >= 1.9.2",
+      "AutoFixture.AutoNSubstitute >= 3.40.0",
       "fx/System.Runtime >= 4.0.20",
       "fx/System.Threading.Tasks >= 4.0.10"
     ]
