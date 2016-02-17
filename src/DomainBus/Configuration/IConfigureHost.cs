@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DomainBus.Audit;
+using DomainBus.Dispatcher;
 using DomainBus.Processing;
 using DomainBus.Transport;
 
@@ -9,7 +10,7 @@ namespace DomainBus.Configuration
     public interface IConfigureHost
     {
         IConfigureHost WithProcessingStorage(IStoreUnhandledMessages store);
-        IConfigureHost WithReserveIdStorage(IStoreUnhandledMessages store);
+        IConfigureHost WithReserveIdStorage(IStoreReservedMessagesIds store);
         IConfigureHost SendFailedMessagesTo(IFailedMessagesQueue queue);
         IConfigureHost SendFailedDeliveriesTo(IDeliveryErrorsQueue queue);
         IConfigureHost PersistAuditsWith(IStoreAudits store);

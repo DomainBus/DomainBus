@@ -46,7 +46,7 @@ namespace DomainBus.Configuration.Internals
             return this;
         }
 
-        IConfigureHost IConfigureHost.WithReserveIdStorage(IStoreUnhandledMessages store)
+        IConfigureHost IConfigureHost.WithReserveIdStorage(IStoreReservedMessagesIds store)
         {
             _storages[typeof (IStoreReservedMessagesIds)] = store;
                 return this;

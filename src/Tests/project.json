@@ -10,23 +10,24 @@
     },
     "frameworks": {
         "dnx46": {
-            "dependencies": {
-                "NSubstitute": "1.9.2",
-                "AutoFixture.AutoNSubstitute": "3.40.0"
-            },
             "frameworkAssemblies": {
                 "System.Runtime": "4.0.20.0",
                 "System.Threading.Tasks": "4.0.10.0"
+            },
+            "dependencies": {
+                "NSubstitute": "1.9.2",
+                "AutoFixture.AutoNSubstitute": "3.40.0"
             }
         }
+       
        
     },
     "dependencies": {
         "xunit": "2.2.0-beta1-build3239",
-        "AutoFixture": "3.40.0",
         "FluentAssertions": "4.2.1",
+        "AutoFixture": "3.40.0",
         "xunit.runner.dnx": "2.1.0-rc1-build204",
-        "Microsoft.Extensions.PlatformAbstractions": "1.0.0-*",
+        "CavemanTools": "4.0.0-pre0-9",
         "DomainBus": ""
 
     },
