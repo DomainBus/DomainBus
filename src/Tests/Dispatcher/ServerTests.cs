@@ -34,6 +34,7 @@ namespace Tests.Dispatcher
             });
 
             _sut.ReceiveConfigurations(new [] {SetupConfig()});
+            _sut.Start();
         }
 
         EndpointMessagesConfig SetupConfig()

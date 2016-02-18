@@ -28,8 +28,7 @@ namespace Tests.Transport
         [Fact]
         public async Task works_as_intended()
         {
-            _sut.StartReceiving(_router);
-            _sut.Start();
+            _sut.StartReceiving(_router);          
             await Task.Delay(150);
             _router.Received(1).DeliverToLocalProcessors(_sut.Envelopes[0]);
             _sut.Handled.Should().Be(_sut.Envelopes[0]);

@@ -20,7 +20,7 @@ namespace Tests.Transport
             LogManager.OutputToTrace();
             _sut=new FakeClientMEssagesReceiver();
             _sut.Add();
-            _sut.PollingInterval = 50.ToMiliseconds();
+          //  _sut.PollingInterval = 50.ToMiliseconds();
             _router = Substitute.For<IRouteMessages>();
         }
 

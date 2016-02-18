@@ -13,19 +13,28 @@ namespace DomainBus.Dispatcher.Server
         private readonly DispatchServerConfiguration _config;
         
         private DispatcherState _state=new DispatcherState();
+
+        object _sync=new object();
         
         public DispatcherServer(Action<DispatchServerConfiguration> configAction)
         {
             var config=new DispatchServerConfiguration();
             configAction(config);
             config.Validate();
-            _config = config;   
+            _config = config;
+
             _config.EndpointUpdatesNotifier.Subscribe(this);
-            _config.MessageNotifier.Subscribe(this);              
+            _config.MessageNotifier.Subscribe(this);
         }
 
+        public void Start()
+        {
+            LoadState();
+            _config.EndpointUpdatesNotifier.Start();
+            _config.MessageNotifier.Start();            
+        }
 
-        public void LoadState()
+        private void LoadState()
         {
            this.LogInfo("Loading state");
             var state = _config.Storage.Load();
@@ -41,8 +50,12 @@ namespace DomainBus.Dispatcher.Server
         {
             try
             {
-                _state.Update(update);
-                _config.Storage.Save(_state);
+                lock (_sync)
+                {
+                    _state.Update(update);
+                    _config.Storage.Save(_state);
+                }
+                
             }
             catch (Exception ex)
             {

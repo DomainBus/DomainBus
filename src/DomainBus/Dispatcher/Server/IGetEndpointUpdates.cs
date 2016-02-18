@@ -6,5 +6,6 @@ namespace DomainBus.Dispatcher.Server
     public interface IGetEndpointUpdates
     {
         void Subscribe(IWantEndpointUpdates server);
+        void Start();
     }
 }

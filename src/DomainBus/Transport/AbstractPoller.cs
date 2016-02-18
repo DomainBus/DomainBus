@@ -9,7 +9,7 @@ namespace DomainBus.Transport
 
         protected AbstractPoller()
         {
-            _timer = new Timer(Callback, null, -1.ToMiliseconds(), PollingInterval);
+            //_timer = new Timer(Callback, null, -1.ToMiliseconds(), PollingInterval);            
         }
 
         protected abstract void Callback(object state);
@@ -17,15 +17,16 @@ namespace DomainBus.Transport
 
         public void Start()
         {
-            _timer.Change(0.ToSeconds(), PollingInterval);
+            Stop();
+            _timer = new Timer(Callback, null, 0.ToMiliseconds(), PollingInterval);
         }
 
         public void Stop()
         {
-            _timer.Change(-1, Timeout.Infinite);
+            _timer?.Dispose();
         }
 
-        public TimeSpan PollingInterval { get; set; }
+        public TimeSpan PollingInterval { get; set; } = 30.ToSeconds();
         public void Dispose()
         {
             _timer?.Dispose();
