@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using CavemanTools.Logging;
 using DomainBus.Dispatcher.Client;
 using DomainBus.Dispatcher.Server;
 
@@ -15,9 +17,16 @@ namespace DomainBus.Transport
 
         protected override void Callback(object state)
         {
-            var items = GetConfigs();
-            _server.ReceiveConfigurations(items);
-            MarkAsHandled(items);
+            try
+            {
+                var items = GetConfigs();
+                _server.ReceiveConfigurations(items);
+                MarkAsHandled(items);
+            }
+            catch (Exception ex)
+            {
+                this.LogError(ex);
+            }
         }
 
         protected abstract EndpointMessagesConfig[] GetConfigs();
