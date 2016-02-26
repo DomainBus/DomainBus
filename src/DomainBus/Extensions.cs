@@ -102,7 +102,11 @@ namespace DomainBus
             var res = new T();
             res.OperationId = msg.Id;
             constructor?.Invoke(res);
-            return res;
+            return res;                        
         }
+
+        public static void PublishWith(this IEvent[] events, IDispatchMessages bus)
+            => bus.Publish(events);
+
     }
 }
