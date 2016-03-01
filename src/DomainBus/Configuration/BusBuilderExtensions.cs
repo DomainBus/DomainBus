@@ -131,8 +131,16 @@ namespace DomainBus.Configuration
         public static IConfigureHost AutoConfigureFrom(this IConfigureHost host, params Assembly[] asms)
             =>
                 host.AutoConfigureFrom(asms.SelectMany(a => a.GetExportedTypes()));
-            
-        
+
+
+        public static IConfigureHost WithoutAuditor(this IConfigureHost host)
+            => host.PersistAuditsWith(NullStorage.Instance);
+
+        public static IConfigureHost WithoutErrorsQueues(this IConfigureHost host)
+            => host.SendFailedDeliveriesTo(NullStorage.Instance).SendFailedMessagesTo(NullStorage.Instance);
+
+        public static IConfigureSagas WithoutSagas(this IConfigureSagas host)
+            => host.WithSagaStorage(NullStorage.Instance);
 
         /// <summary>
         /// Bus works only inside an application
