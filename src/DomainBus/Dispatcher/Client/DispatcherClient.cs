@@ -75,7 +75,7 @@ namespace DomainBus.Dispatcher.Client
                 var all = config.Filter(messages);
                 if (all.Length > 0)
                 {
-                    await SendToProcessor(config, all);                   
+                    await SendToProcessor(config, all).ConfigureFalse();                   
                 }
             }
         }
@@ -112,14 +112,14 @@ namespace DomainBus.Dispatcher.Client
                 _auditor.MessagesRejected(envelope.To,diff.Removed);
             }
             _auditor.DispatchStarted(_hostName,toSend);
-            await SendToProcessor(ep, toSend);
+            await SendToProcessor(ep, toSend).ConfigureFalse();
             _auditor.DispatchEnded(toSend);
         }
 
         private async Task SendToProcessor(IEndpointConfiguration ep, IMessage[] toSend)
         {
             this.LogDebug($"Sending {toSend.Length} messages to {ep.Id}");
-            await ep.AddToProcessing(toSend);
+            await ep.AddToProcessing(toSend).ConfigureFalse();
             _auditor.SentToLocal(ep.Id, toSend);
         }
 
