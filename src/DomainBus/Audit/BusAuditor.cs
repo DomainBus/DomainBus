@@ -17,7 +17,7 @@ namespace DomainBus.Audit
 
         ConcurrentDictionary<Guid,object> _items=new ConcurrentDictionary<Guid, object>();
 
-        const string LogName = "[DomainBus]";
+        const string LogName = "DomainBus";
 
         public BusAuditor(IStoreAudits store)
         {
