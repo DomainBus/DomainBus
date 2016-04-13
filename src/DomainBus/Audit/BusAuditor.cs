@@ -62,7 +62,11 @@ namespace DomainBus.Audit
                 return;
             }
             item.EndedAt=DateTimeOffset.Now;
-            if (ex != null) item.Error = ex.ToString();            
+            if (ex != null)
+            {
+                item.Error = ex.ToString();
+                LogName.LogError(ex);
+            }            
         }
 
         public void MessageProcessed(string processor, IMessage message)
