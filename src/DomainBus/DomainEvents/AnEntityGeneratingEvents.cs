@@ -6,7 +6,7 @@ namespace DomainBus.DomainEvents
 {
     public abstract class AnEntityGeneratingEvents : AnEntityWithOperationId,IEntityGeneratingEvents,IEntityId
     {
-        protected List<IEvent>  _events=new List<IEvent>();
+        protected List<IEvent>  Events=new List<IEvent>();
 
 
         protected void Apply<T>(T evnt,Action<T> action) where T : IEvent
@@ -19,13 +19,13 @@ namespace DomainBus.DomainEvents
         {
             if (_operationId == null) throw new NullReferenceException("Operation id is not set");
             evnt.OperationId = _operationId.Value;
-            _events.Add(evnt);
+            Events.Add(evnt);
         }
 
 
-        public IEvent[] GetGeneratedEvents() => _events.ToArray();
+        public IEvent[] GetGeneratedEvents() => Events.ToArray();
 
-        public void ClearEvents() => _events.Clear();
+        public void ClearEvents() => Events.Clear();
         public Guid EntityId { get; protected set; }
     }
 }

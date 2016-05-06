@@ -50,7 +50,7 @@ namespace DomainBus.DomainEvents
             ClearEvents();
         }
        
-        public bool HasChanges() => _events.Count > 0;
+        public bool HasChanges() => Events.Count > 0;
 
 
         /// <summary>
@@ -61,6 +61,11 @@ namespace DomainBus.DomainEvents
         /// <returns></returns>
         public IEnumerable<IEvent> GetEventsForOperation(Guid id) => _history.Where(e => e.OperationId == id);
 
+        /// <summary>
+        /// Also sets the event's operation id
+        /// </summary>
+        /// <param name="ev"></param>
+        /// <param name="isNew"></param>
         protected virtual void ApplyChange(IEvent ev, bool isNew = true)
         {
             this.AsDynamic().Apply((dynamic)ev);
