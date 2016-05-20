@@ -6,6 +6,8 @@ namespace DomainBus.DomainEvents
     {
         public Guid EntityId { get; set; }
 
+        public int AggregateVersion { get; set; }
+
         protected DomainEvent()
         {
             
@@ -15,5 +17,6 @@ namespace DomainBus.DomainEvents
         {
             EntityId = entityId;
         }
+
     }
 }
