@@ -120,21 +120,27 @@ namespace DomainBus.Configuration
         /// </summary>
         /// <param name="host"></param>
         /// <returns></returns>
-        public static IConfigureHost InMemoryAuditorStorage(this IConfigureHost host)
+        public static IConfigureHost StoreAuditsInMemory(this IConfigureHost host)
             => host.PersistAuditsWith(new InMemoryAuditStorage());
+
+        public static IConfigureHost WithoutSagas(this IConfigureHost host)
+            => host.ConfigureSagas(d => d.WithoutSagas());
         /// <summary>
         /// Autoconfiguration from types of the provided assemblies
         /// </summary>
         /// <param name="host"></param>
         /// <param name="asms"></param>
         /// <returns></returns>
-        public static IConfigureHost AutoConfigureFrom(this IConfigureHost host, params Assembly[] asms)
+        public static IConfigureHost RegisterHandlersAndSagasFrom(this IConfigureHost host, params Assembly[] asms)
             =>
                 host.AutoConfigureFrom(asms.SelectMany(a => a.GetExportedTypes()));
 
 
         public static IConfigureHost WithoutAuditor(this IConfigureHost host)
             => host.PersistAuditsWith(NullStorage.Instance);
+
+        public static IConfigureHost LocalHost(this IConfigureHost host)
+            => host.HostnameIs("local");
 
         public static IConfigureHost WithoutErrorsQueues(this IConfigureHost host)
             => host.SendFailedDeliveriesTo(NullStorage.Instance).SendFailedMessagesTo(NullStorage.Instance);
@@ -153,7 +159,10 @@ namespace DomainBus.Configuration
                 build
                     .ServerComunication(
                         c => c.ReceiveMessagesUsing(NullReceiver.Instance).TalkUsing(NullServerConnector.Instance))
-                    .CurrentHost(config)
+                    .CurrentHost(d =>
+                    {
+                        config(d.LocalHost());
+                    })
                     .Build();
 
     }

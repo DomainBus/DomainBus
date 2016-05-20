@@ -50,7 +50,7 @@
           "lib/net46/CavemanTools.dll": {}
         }
       },
-      "DomainBus/4.0.0-beta0-2": {
+      "DomainBus/4.0.0-beta0-4": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.6",
         "dependencies": {
@@ -369,7 +369,7 @@
           "lib/net46/CavemanTools.dll": {}
         }
       },
-      "DomainBus/4.0.0-beta0-2": {
+      "DomainBus/4.0.0-beta0-4": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.6",
         "dependencies": {
@@ -688,7 +688,7 @@
           "lib/net46/CavemanTools.dll": {}
         }
       },
-      "DomainBus/4.0.0-beta0-2": {
+      "DomainBus/4.0.0-beta0-4": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.6",
         "dependencies": {
@@ -961,7 +961,7 @@
     }
   },
   "libraries": {
-    "DomainBus/4.0.0-beta0-2": {
+    "DomainBus/4.0.0-beta0-4": {
       "type": "project",
       "path": "../DomainBus/project.json"
     },
