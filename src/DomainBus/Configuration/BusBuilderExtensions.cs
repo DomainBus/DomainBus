@@ -131,7 +131,7 @@ namespace DomainBus.Configuration
         /// <param name="host"></param>
         /// <param name="asms"></param>
         /// <returns></returns>
-        public static IConfigureHost RegisterHandlersAndSagasFrom(this IConfigureHost host, params Assembly[] asms)
+        public static IConfigureHost RegisterHandlersAndSagaStatesFrom(this IConfigureHost host, params Assembly[] asms)
             =>
                 host.AutoConfigureFrom(asms.SelectMany(a => a.GetExportedTypes()));
 

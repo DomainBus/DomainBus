@@ -45,9 +45,8 @@ namespace DomainBus.DomainEvents
         protected EventSourcedEntity(IEnumerable<DomainEvent> events):this()
         {
             events.MustNotBeEmpty();
-            _history.AddRange(events);
-            Restore();
-            Version = _history.Last().AggregateVersion;
+            Restore(events);
+          
         }
 
         protected EventSourcedEntity()
@@ -55,10 +54,13 @@ namespace DomainBus.DomainEvents
            
         }
 
-        protected void Restore() => _history.ForEach(ev => ApplyChange(ev, false));
+        protected void Restore(IEnumerable<DomainEvent> events)
+        {
+            _history.AddRange(events);
+            _history.ForEach(ev => ApplyChange(ev, false));           
+        }
 
-   
-      
+
         /// <summary>
         /// Sets the operation id to ensure that an operation (calling one or more methods) can't be  repeated. 
         /// Used to ensure idempotency
@@ -103,8 +105,9 @@ namespace DomainBus.DomainEvents
         protected virtual void ApplyChange(DomainEvent ev, bool isNew = true)
         {
             this.AsDynamic().Apply((dynamic)ev);
-            if (!isNew) return;
-            AddEvent(ev);
+            
+            if (isNew) AddEvent(ev);
+            else Version = ev.AggregateVersion;
         }
      
     }

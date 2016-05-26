@@ -1,31 +1,28 @@
 ﻿{
-  "version": "4.0.0-beta0-4",
+  "version": "4.0.0-beta1-2",
   "description": "A powerful but light and easy to use service bus for monoliths and distributed apps",
-  "authors": [ "Mihai Mogosanu" ],
-  "tags": [ "servicebus","domain","ddd","messagebus","bus"],
-  "projectUrl": "",
-  "licenseUrl": "",
+    "authors": [ "Mihai Mogosanu" ],
+    "packOptions": {
+        "tags": [ "servicebus", "domain", "ddd", "messagebus", "bus" ],
+        "projectUrl": "",
+        "licenseUrl": ""
+    }
+  ,
 
     "dependencies": {
-        "CavemanTools": "4.0.0"
+        "CavemanTools": "4.3.1",
+      
     },
 
   "frameworks": {
-    "net46": {
+    "net461": {
 
     },
-    "dotnet5.4": {
-      "dependencies": {
-        "Microsoft.CSharp": "4.0.1-beta-23516",
-        "System.Collections": "4.0.11-beta-23516",
-        "System.Linq": "4.0.1-beta-23516",
-        "System.Runtime": "4.0.21-beta-23516",
-        "System.Threading": "4.0.11-beta-23516",
-        "System.Threading.Timer": "4.0.1-beta-23516",
-        "System.Reflection": "4.1.0-beta-23516"   
-        
-        
-      }
+    "netstandard1.5": {
+        "dependencies": {
+           
+
+        }
     }
   }
 }
