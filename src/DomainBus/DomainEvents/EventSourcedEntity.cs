@@ -8,7 +8,10 @@ namespace DomainBus.DomainEvents
     public abstract class EventSourcedEntity:AnEntityWithOperationId
     {
 
-        public int Version { get; private set; } = -1;
+        /// <summary>
+        /// The number of times the aggregate state has been changed
+        /// </summary>
+        public int Version { get; private set; } = 0;
 
         private List<DomainEvent> _history=new List<DomainEvent>();
 

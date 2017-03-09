@@ -39,7 +39,6 @@ namespace DomainBus.Processing.Internals
             Name = "Default";
             PollingInterval = TimeSpan.FromMinutes(1);
             BufferSize = 50;
-            PollingEnabled = true;
             IsPaused = true;      
         }
 
@@ -66,15 +65,19 @@ namespace DomainBus.Processing.Internals
         {
             try
             {
-                
-                var msgs =  _storage.GetMessages(Name, BufferSize).OrderBy(d=>d.TimeStamp).ToArray();
+                var msgs = _storage.GetMessages(Name, BufferSize).ToArray();
                 if (!msgs.Any()) return;
                 _cache.Add(msgs);
                 if (!IsPaused) SeedTasks();
             }
             catch (BusStorageException ex)
             {
-                _logName.LogError(ex,"When trying to load messages for processing, the store threw exception.");          
+                _logName.LogError(ex, "When trying to load messages for processing, the store threw exception.");
+            }
+            catch (Exception ex)
+            {
+                _logName.LogError(ex);
+                throw;
             }
         }
 
@@ -237,7 +240,7 @@ namespace DomainBus.Processing.Internals
 
                 finally
                 {
-                    Cache.Remove(msg);
+                    Cache.MessageHandled(msg);
                     _busAuditor.MessageProcessed(Name, msg);
                 }                
             }

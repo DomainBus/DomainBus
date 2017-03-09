@@ -44,7 +44,7 @@ namespace DomainBus.Configuration
         }
 
         /// <summary>
-        /// Handlers are types from the specified assemblies decorated with <see cref="DomainBusAttribute"/>
+        /// Handlers are types decorated with <see cref="DomainBusAttribute"/> from the specified assemblies 
         /// </summary>
         /// <param name="procs"></param>
         /// <param name="name"></param>
@@ -149,7 +149,7 @@ namespace DomainBus.Configuration
             => host.WithSagaStorage(NullStorage.Instance);
 
         /// <summary>
-        /// Bus works only inside an application
+        /// Bus works in monolith mode. You still have to configure processing points and storages
         /// </summary>
         /// <param name="build"></param>
         /// <param name="config"></param>
@@ -164,6 +164,7 @@ namespace DomainBus.Configuration
                         config(d.LocalHost());
                     })
                     .Build();
+       
 
     }
 }

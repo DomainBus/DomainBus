@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DomainBus.Transport;
-using Ploeh.AutoFixture;
+
 
 namespace Tests.Transport
 {
@@ -14,7 +14,7 @@ namespace Tests.Transport
 
         public void Add()
         {
-            Envelopes.Add(Setup.Fixture.Create<EnvelopeFromClient>());
+            Envelopes.Add(new EnvelopeFromClient(){From = "remote",Id = Guid.NewGuid(),Messages = new []{new MyCommand(), }});
         }
 
     

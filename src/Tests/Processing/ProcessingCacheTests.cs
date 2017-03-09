@@ -28,13 +28,13 @@ namespace Tests.Processing
         }
 
 
-        [Fact]
-        public void next_message_has_the_earliest_timestamp()
-        {
-            var myCommand = new MyCommand();
-            _sut.Add(new IMessage[1] {myCommand});
-            _sut.GetNextMessage().Should().Be(myCommand);
-        }
+        //[Fact]
+        //public void next_message_has_the_earliest_timestamp()
+        //{
+        //    var myCommand = new MyCommand();
+        //    _sut.Add(new IMessage[1] {myCommand});
+        //    _sut.GetNextMessage().Should().Be(myCommand);
+        //}
 
         [Fact]
         public void message_is_removed_from_cache()
@@ -42,8 +42,10 @@ namespace Tests.Processing
             var myCommand = new MyCommand();
             _sut.Add(new IMessage[1] {myCommand});
             _sut.Cache.Count().Should().Be(2);
-            _sut.Remove(myCommand);
-            _sut.Cache.First().Should().Be(_myEvent);
+            var first=_sut.GetNextMessage();
+            first.Should().Be(_myEvent);
+            _sut.MessageHandled(first);
+            
             _sut.Cache.Count().Should().Be(1);
         }
     }

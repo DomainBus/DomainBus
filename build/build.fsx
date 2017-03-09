@@ -61,13 +61,13 @@ Target "Local"( fun _ ->
 // Dependencies
 "Clean"
     ==>"Build"
-  //  ==>"Test"
+    ==>"Test"
     ==>"Pack"
     ==>"Local"
 
 "Clean"
     ==>"Build"
-  //  ==>"Test"
+    ==>"Test"
     ==>"Pack"
     ==>"Push"
    

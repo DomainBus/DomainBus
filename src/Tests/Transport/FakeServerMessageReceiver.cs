@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using DomainBus.Configuration;
 using DomainBus.Transport;
-using Ploeh.AutoFixture;
+
 
 namespace Tests.Transport
 {
@@ -15,7 +16,7 @@ namespace Tests.Transport
 
         public void Add()
         {
-            Envelopes.Add(Setup.Fixture.Create<EnvelopeToClient>());
+            Envelopes.Add(new EnvelopeToClient() { To = EndpointId.TestValue, Id = Guid.NewGuid(), Messages = new[] { new MyCommand(), } });
         }
         protected override EnvelopeToClient[] GetMessages()
         {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using DomainBus.Dispatcher.Client;
 using DomainBus.Transport;
-using Ploeh.AutoFixture;
+
 
 namespace Tests.Transport
 {
@@ -10,7 +10,7 @@ namespace Tests.Transport
         public List<EndpointMessagesConfig> Configs { get; }=new List<EndpointMessagesConfig>();
         public FakeEndpointConfigurationReceiver()
         {
-            Configs.AddRange(Setup.Fixture.CreateMany<EndpointMessagesConfig>());
+            Configs.AddRange(new EndpointMessagesConfig[]{new EndpointMessagesConfig(){}, });
         }
 
 
