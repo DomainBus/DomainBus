@@ -79,21 +79,22 @@ namespace Tests.Processing
         public void load_from_storage()
         {
             _sut.Stop();
-            _sut.PollingEnabled = true;
-            _sut.PollingInterval = 100.ToMiliseconds();
-            
+            //_sut.PollingEnabled = true;
+            //_sut.PollingInterval = 100.ToMiliseconds();
+
             var queue=new Queue<IMessage>();
+           // queue.Enqueue(new MyCommand());
             var myEvent = new MyEvent();
             queue.Enqueue(myEvent);
             var myCommand = new MyCommand();
             queue.Enqueue(myCommand);
 
-            _storage.GetMessages(_sut.Name, Arg.Any<int>()).Returns(i => new [] { queue.Dequeue()});
+            _storage.GetMessages(_sut.Name, Arg.Any<int>()).Returns(i => queue.ToArray());
 
             _sut.Start();
             _sut.WaitUntilWorkersFinish();
             _processor.Received(1).Process(myEvent,_sut.Name);
-            _processor.Received(1).Process(myCommand,_sut.Name);
+            _processor.Received(1).Process(myCommand,_sut.Name);           
         }
 
         public void Dispose()

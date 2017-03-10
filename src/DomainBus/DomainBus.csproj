@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>A powerful but light and easy to use service bus for monoliths and distributed apps</Description>
-    <VersionPrefix>4.0.0-beta1-4</VersionPrefix>
+ 
     <Authors>Mihai Mogosanu</Authors>   
     <TargetFrameworks>netstandard1.4;net461</TargetFrameworks>
     <AssemblyName>DomainBus</AssemblyName>
@@ -16,15 +16,13 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <DocumentationFile>bin\Release\$(TargetFramework)\DomainBus.xml</DocumentationFile>
     <Version>4.0.0-beta2</Version>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard1.4|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
+
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.4|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard1.4\.xml</DocumentationFile>
     <DebugType>none</DebugType>
     <DebugSymbols>False</DebugSymbols>
   </PropertyGroup>

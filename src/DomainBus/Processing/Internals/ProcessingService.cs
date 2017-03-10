@@ -99,14 +99,14 @@ namespace DomainBus.Processing.Internals
         /// </summary>
         public int BufferSize { get; set; }
 
-        public void Start()
+        public void Start(bool loadInitialMessages = true)
         {
            if (!IsPaused) return;
            
             _logName.LogInfo("Started");
             _cancelSource = new CancellationTokenSource();
             IsPaused = false;
-            LoadMessages();
+            if (loadInitialMessages)LoadMessages();
             if (PollingEnabled) StartTimer();
             else
             {

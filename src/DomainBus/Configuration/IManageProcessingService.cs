@@ -6,7 +6,7 @@ namespace DomainBus.Configuration
 
         string Name { get; }
 
-        void Start();
+        void Start(bool loadInitialMessages = true);
         void Stop();
 
         /// <summary>
