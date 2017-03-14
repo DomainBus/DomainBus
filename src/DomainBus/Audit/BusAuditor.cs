@@ -15,7 +15,7 @@ namespace DomainBus.Audit
       
         private readonly IStoreAudits _store;
 
-        ConcurrentDictionary<Guid,object> _items=new ConcurrentDictionary<Guid, object>();
+        ConcurrentDictionary<string, object> _items=new ConcurrentDictionary<string, object>();
 
         const string LogName = "DomainBus";
 
@@ -27,23 +27,23 @@ namespace DomainBus.Audit
         }
 
 
-        T Get<T>(IMessage msg) where T : class
+        T Get<T>(IMessage msg, string processor="") where T : class
         {
             object item=null;
-            _items.TryGetValue(msg.Id, out item);
+            _items.TryGetValue(msg.Id+processor, out item);
             return item as T;
         }
 
         public void StartedProcessing(string processor, IMessage message)
         {
             LogName.LogDebug($"Processor '{processor}' started to process {message}");
-            _items.TryAdd(message.Id,new MessageProcessingAudit(message.Id));
+            if(!_items.TryAdd(message.Id+processor,new MessageProcessingAudit(message.Id))) LogName.LogWarn($"Couldn't add message process audit for {message}");
         }
 
         public void Handling(IMessage message, Type handlerType, string processor)
         {
             LogName.LogDebug($"({processor})Handling {message} with {handlerType}");
-            Get<MessageProcessingAudit>(message)
+            Get<MessageProcessingAudit>(message,processor)
                 ?.Handlers
                 .Add(new MessageProcessingHandlingAudit()
                 {
@@ -55,7 +55,7 @@ namespace DomainBus.Audit
         public void Handled(IMessage message, Type handlerType, string processor, Exception ex = null)
         {
             LogName.LogDebug($"({processor})Handled {message} with {handlerType}");
-            var item = Get<MessageProcessingAudit>(message)?.Handlers.Find(h => h.HandlerType == handlerType.FullName);
+            var item = Get<MessageProcessingAudit>(message,processor)?.Handlers.Find(h => h.HandlerType == handlerType.FullName);
             if (item == null)
             {
                 LogName.LogWarn($"Message was handled but there is no audit item available. Bug in auditor?");
@@ -72,8 +72,12 @@ namespace DomainBus.Audit
         public void MessageProcessed(string processor, IMessage message)
         {
             LogName.LogDebug($"({processor}) Ended processing of {message}");
-            var item = Get<MessageProcessingAudit>(message);
-            if (item==null) return;
+            var item = Get<MessageProcessingAudit>(message,processor);
+            if (item == null)
+            {
+                LogName.LogWarn("Audit item not found. Bug?");
+                return;
+            }
             item.CompletedAt=DateTimeOffset.Now;
             _store.Append(item);
             RemoveAudit(message);
@@ -82,13 +86,9 @@ namespace DomainBus.Audit
         void RemoveAudit(IMessage msg)
         {
             object t;
-            _items.TryRemove(msg.Id,out t);
+            _items.TryRemove(msg.Id.ToString(),out t);
         }
-
-        //public void SentToErrorQueue(IMessage message)
-        //{
-            
-        //}
+       
 
         #region Processor       
 
@@ -109,19 +109,7 @@ namespace DomainBus.Audit
             item.ThrewConfigurationError = true;
         }
 
-        //public void BusConfigurationError(DuplicateCommandHandlerException ex)
-        //{
-           
-        //}
-
-        #endregion
-    
-        #region Server
-
-        //public void Relayed(IEnumerable<IMessage> commit)
-        //{
-            
-        //}
+       
 
         #endregion
 
@@ -142,7 +130,7 @@ namespace DomainBus.Audit
 
         public void DispatchStarted(string hostName, IEnumerable<IMessage> commit)
         {
-            commit.ForEach(m => _items.TryAdd(m.Id, new MessageTransportAudit(m.Id) {ByHost = hostName}));
+            commit.ForEach(m => _items.TryAdd(m.Id.ToString(), new MessageTransportAudit(m.Id) {ByHost = hostName}));
         }
 
         public void SentToServer(IEnumerable<IMessage> commit)
