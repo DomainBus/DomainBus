@@ -71,7 +71,8 @@ namespace DomainBus.Configuration
             RegisterSingletonInstance(new BusAuditor(_host.GetStorage<IStoreAudits>()));
             RegisterSingletonInstance(_host.GetStorage<IStoreSagaState>());
             
-            
+            _host.Handlers.MustNotBeNull("Handlers are null");            
+            _host.SagaStateTypes.MustNotBeNull("Saga state types are null");
             Register(_host.Handlers);        
             Register(_host.SagaStateTypes);
         }

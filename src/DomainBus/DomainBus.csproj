@@ -16,8 +16,9 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+      <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>bin\Release\$(TargetFramework)\DomainBus.xml</DocumentationFile>
-    <Version>4.0.0-beta2</Version>
+    <Version>4.0.0-beta5-1</Version>
   </PropertyGroup>
 
 

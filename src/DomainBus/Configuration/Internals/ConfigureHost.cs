@@ -87,7 +87,7 @@ namespace DomainBus.Configuration.Internals
 
         public IConfigureHost AutoConfigureFrom(IEnumerable<Type> types)
         {
-            var t = types.ToArray();
+            var t = types?.ToArray()??Type.EmptyTypes;
             AddHandlers(t);
             AddSagaStates(t);
             return this;
@@ -99,7 +99,6 @@ namespace DomainBus.Configuration.Internals
             _hostName.MustNotBeEmpty();
             Processors.Verify();
             var missing=_storages
-                //.Where(kv => kv.Key != typeof (IFindSagaState<>.Using<>))
                 .Where(kv => kv.Value == null)
                 .Select(d => d.Key).ToArray();
             if (!missing.Any()) return;
@@ -107,10 +106,10 @@ namespace DomainBus.Configuration.Internals
            
         }
 
-        public IEnumerable<Type> SagaStateTypes { get; private set; }
+        public IEnumerable<Type> SagaStateTypes { get; private set; }  =Enumerable.Empty<Type>();
 
         private void AddSagaStates(Type[] types)
-            => SagaStateTypes = types.Where(t => t.IsSagaState());
+            => SagaStateTypes = types.Where(t => t.IsSagaState()).ToArray();
 
         void AddHandlers(IEnumerable<Type> handlers) => Handlers.AddRange(handlers.Where(d=>d.IsMessageHandler()));
         

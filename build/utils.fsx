@@ -40,7 +40,9 @@ let runTests dir=
 
 let pack proj =ExecProcess(fun c -> 
                                         c.FileName<-dotnet
-                                        c.Arguments<-("pack "+proj+" --include-symbols --include-source -c Release --no-build  -o "+outDir))(TimeSpan.FromMinutes 5.0)
+                                        let build= if additionalPack.Length=0 then "--no-build" else ""
+                                        //trace ("to build:" + additionalPack.Length.ToString() + build)
+                                        c.Arguments<-("pack "+proj+" --include-symbols --include-source "+build+" -c Release -o "+outDir))(TimeSpan.FromMinutes 5.0)
 let push file = ExecProcess(fun c ->
                             c.FileName<- (currentDirectory @@ nugetExeDir @@ "nuget.exe")
                             c.Arguments <- ("push "+ file+" -Source "+nugetServer))(TimeSpan.FromMinutes 5.0)
