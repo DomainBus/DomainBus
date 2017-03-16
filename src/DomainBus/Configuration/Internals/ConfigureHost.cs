@@ -4,6 +4,7 @@ using System.Linq;
 using CavemanTools.Infrastructure;
 using DomainBus.Audit;
 using DomainBus.Dispatcher;
+using DomainBus.Dispatcher.Client;
 using DomainBus.Processing;
 using DomainBus.Transport;
 
@@ -14,7 +15,7 @@ namespace DomainBus.Configuration.Internals
 
         public ConfigureHost()
         {
-           RequiredStorages.ForEach(t=>_storages[t]=null);
+           RequiredStorages.ForEach(t=>_storages[t]=NullServerConnector.Instance);            
         }
 
         public static readonly Type[] RequiredStorages =

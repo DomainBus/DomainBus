@@ -7,17 +7,7 @@ namespace DomainBus.Configuration
 {
     public class HostedEndpointConfiguration:IConfigureHostedEndpoint,IConfigureLambdaEndpoint
     {
-        protected Assembly ThisAssembly
-        {
-            get
-            {
-                //var thisType = GetType();
-                //if (thisType.GetTypeInfo().BaseType != typeof(HostedEndpointConfiguration))
-                //    throw new InvalidOperationException("This property is available only for ");
-
-                return GetType().GetTypeInfo().Assembly;
-            }
-        }
+        protected Assembly ThisAssembly => GetType().GetTypeInfo().Assembly;
 
         public HostedEndpointConfiguration(string name):this()
         {

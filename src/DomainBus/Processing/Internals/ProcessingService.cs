@@ -118,7 +118,7 @@ namespace DomainBus.Processing.Internals
 
         /// <summary>
         /// Enables or disables message polling. If disabled, only messages added in-process will be processed.
-        /// Should be used only when you don't care about storage.
+        /// Default is false
         /// </summary>
         public bool PollingEnabled { get; set; }
 

@@ -20,10 +20,7 @@ namespace DomainBus
 
         public const string MemoryProcessor = "memory";
 
-        public static IBuildBusWithContainer ConfigureWith(IBuildBusWithContainer wrapper)
-        {
-            return wrapper;
-        }
+        public static IBuildBusWithContainer ConfigureWith(IBuildBusWithContainer wrapper) => wrapper;
 
         internal ServiceBus(IContainerScope container,DispatcherClient client, ConfigureHost host,IReceiveServerMessages receiver)
         {

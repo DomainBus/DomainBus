@@ -105,12 +105,6 @@ namespace DomainBus.Configuration
            
                 c.HostnameIs("local")
                 .AutoConfigureFrom(handlerTypes)
-                .ConfigureSagas(s=>s.WithSagaStorage(NullStorage.Instance))
-                .PersistAuditsWith(NullStorage.Instance)
-                .SendFailedDeliveriesTo(NullStorage.Instance)
-                .SendFailedMessagesTo(NullStorage.Instance)
-                .WithProcessingStorage(NullStorage.Instance)
-                .WithReserveIdStorage(NullStorage.Instance)
                 .ConfigureProcessors(
                     procs=>procs.Add("memorybus",endpoint=>endpoint.HandleOnly(handlerTypes)))
            );
@@ -120,7 +114,7 @@ namespace DomainBus.Configuration
         /// </summary>
         /// <param name="host"></param>
         /// <returns></returns>
-        public static IConfigureHost StoreAuditsInMemory(this IConfigureHost host)
+        public static IConfigureHost WithInMemoryAudits(this IConfigureHost host)
             => host.PersistAuditsWith(new InMemoryAuditStorage());
 
         public static IConfigureHost WithoutSagas(this IConfigureHost host)
@@ -149,7 +143,7 @@ namespace DomainBus.Configuration
             => host.WithSagaStorage(NullStorage.Instance);
 
         /// <summary>
-        /// Bus works in monolith mode. You still have to configure processing points and storages
+        /// Bus works in monolith mode. You still have to configure processing enpoints and storages
         /// </summary>
         /// <param name="build"></param>
         /// <param name="config"></param>
