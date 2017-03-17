@@ -38,6 +38,4 @@ namespace DomainBus.DomainEvents
             entity.ClearEvents();
         }
     }
-
-    
 }

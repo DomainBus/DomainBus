@@ -5,9 +5,9 @@ namespace DomainBus.DomainEvents
     public class DuplicateOperationException : Exception
     {
         public Guid OperationId { get; set; }
-        public IEvent[] Events { get; set; }
+        public DomainEvent[] Events { get; set; }
 
-        public DuplicateOperationException(Guid operationId,IEvent[]events)
+        public DuplicateOperationException(Guid operationId,DomainEvent[]events)
         {
             OperationId = operationId;
             Events = events;
