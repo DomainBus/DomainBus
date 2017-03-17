@@ -6,6 +6,7 @@ using DomainBus.Audit;
 using DomainBus.Dispatcher;
 using DomainBus.Dispatcher.Client;
 using DomainBus.Processing;
+using DomainBus.Repositories;
 using DomainBus.Transport;
 
 namespace DomainBus.Configuration.Internals
@@ -15,7 +16,7 @@ namespace DomainBus.Configuration.Internals
 
         public ConfigureHost()
         {
-           RequiredStorages.ForEach(t=>_storages[t]=NullServerConnector.Instance);            
+           RequiredStorages.ForEach(t=>_storages[t]=NullStorage.Instance);            
         }
 
         public static readonly Type[] RequiredStorages =
@@ -33,7 +34,13 @@ namespace DomainBus.Configuration.Internals
 
         readonly Dictionary<Type,object> _storages=new Dictionary<Type, object>();
 
-        public T GetStorage<T>() where T:class => _storages.GetValueOrDefault(typeof (T)) as T;
+        public T GetStorage<T>() where T:class
+        {
+            var storage = _storages.GetValueOrDefault(typeof(T)) as T;
+            storage.MustNotBeNull("Configuration bug, this should always have a value");
+            
+            return storage;
+        }
 
         public string HostName => _hostName;
 
@@ -43,30 +50,35 @@ namespace DomainBus.Configuration.Internals
 
         IConfigureHost IConfigureHost.WithProcessingStorage(IStoreUnhandledMessages store)
         {
+            store.MustNotBeNull();
             _storages[typeof (IStoreUnhandledMessages)] = store;
             return this;
         }
 
         IConfigureHost IConfigureHost.WithReserveIdStorage(IStoreReservedMessagesIds store)
         {
+            store.MustNotBeNull();
             _storages[typeof (IStoreReservedMessagesIds)] = store;
                 return this;
         }
 
         IConfigureHost IConfigureHost.SendFailedMessagesTo(IFailedMessagesQueue store)
         {
+            store.MustNotBeNull();
             _storages[typeof(IFailedMessagesQueue)] = store;
             return this;
         }
 
         IConfigureHost IConfigureHost.SendFailedDeliveriesTo(IDeliveryErrorsQueue queue)
         {
+            queue.MustNotBeNull();
             _storages[typeof(IDeliveryErrorsQueue)] = queue;
             return this;
         }
 
         IConfigureHost IConfigureHost.PersistAuditsWith(IStoreAudits store)
         {
+            store.MustNotBeNull();
             _storages[typeof(IStoreAudits)] = store;
             return this;
         }

@@ -41,7 +41,7 @@ namespace Tests
                 
             }
 
-            protected override void Register(IEnumerable<Type> types)
+            protected override void Register(IEnumerable<Type> types,bool sginle=false)
             {
                 
             }
