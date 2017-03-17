@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using CavemanTools.Infrastructure;
 using DomainBus.Audit;
 using DomainBus.Configuration.Internals;
@@ -22,15 +24,16 @@ namespace DomainBus.Configuration
         /// <typeparam name="T"></typeparam>
         /// <param name="instance"></param>
         protected abstract void RegisterSingletonInstance<T>(T instance);
-       
+
         /// <summary>
         /// Should always register types as self and as implemented interfaces.
         /// </summary>
         /// <param name="types"></param>
-        protected abstract void Register(IEnumerable<Type> types);
+        /// <param name="asSingleton"></param>
+        protected abstract void Register(IEnumerable<Type> types,bool asSingleton=false);
 
         /// <summary>
-        /// 
+        ///  Register lambda as factory for specified type
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="instance"></param>
@@ -73,7 +76,10 @@ namespace DomainBus.Configuration
             
             _host.Handlers.MustNotBeNull("Handlers are null");            
             _host.SagaStateTypes.MustNotBeNull("Saga state types are null");
-            Register(_host.Handlers);        
+            Func<Type, bool> isSingleton = t => t.HasCustomAttribute<SingletonHandlerAttribute>();
+            Register(_host.Handlers.Where(t=>!isSingleton(t)));                    
+            Register(_host.Handlers.Where(t=>isSingleton(t)),true);                    
+            
             Register(_host.SagaStateTypes);
         }
 
