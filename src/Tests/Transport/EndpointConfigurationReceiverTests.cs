@@ -18,7 +18,7 @@ namespace Tests.Transport
 
         public EndpointConfigurationReceiverTests()
         {
-            LogManager.OutputToTrace();
+           // LogManager.OutputToTrace();
             _sut=new FakeEndpointConfigurationReceiver();
             _server = Substitute.For<IWantEndpointUpdates>();
         }

@@ -18,7 +18,7 @@
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>bin\Release\$(TargetFramework)\DomainBus.xml</DocumentationFile>
-    <Version>4.0.0-beta5-3</Version>
+    <Version>4.0.0-beta6-1</Version>
   </PropertyGroup>
 
 
@@ -30,7 +30,7 @@
 
     
   <ItemGroup>
-    <PackageReference Include="CavemanTools" Version="4.6.0" />
+    <PackageReference Include="CavemanTools" Version="4.8.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">

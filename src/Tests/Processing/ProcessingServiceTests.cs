@@ -22,7 +22,7 @@ namespace Tests.Processing
 
         public ProcessingServiceTests()
         {
-            LogManager.OutputToTrace();
+            //LogManager.OutputToTrace();
             _storage = Substitute.For<IStoreUnhandledMessages>();
             _processor = Substitute.For<IProcessMessage>();
             _errors = Substitute.For<IFailedMessagesQueue>();

@@ -17,7 +17,7 @@ namespace Tests.Transport
 
         public ClientMessagesReceiverTests()
         {
-            LogManager.OutputToTrace();
+           // LogManager.OutputToTrace();
             _sut=new FakeClientMEssagesReceiver();
             _sut.Add();
           //  _sut.PollingInterval = 50.ToMiliseconds();

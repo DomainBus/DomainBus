@@ -20,7 +20,7 @@ namespace Tests.Processing.Saga
 
         public BaseSagaTests()
         {
-            LogManager.OutputToTrace();
+           // LogManager.OutputToTrace();
             _invoker = Substitute.For<IHandlerTypeInvoker>();
             _di = Substitute.For<IContainerScope>();
             _bus = Substitute.For<IDispatchMessages>();

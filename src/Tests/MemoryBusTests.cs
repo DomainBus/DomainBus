@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using CavemanTools.Infrastructure;
 using CavemanTools.Logging;
 using DomainBus;
@@ -65,7 +66,7 @@ namespace Tests
         [Fact]
         public void using_memory_bus()
         {
-            LogManager.OutputToTrace();
+            LogManager.OutputTo(s=>Debug.WriteLine(s));
             var bus = ServiceBus.ConfigureWith(new TEstBuilder()).AsMemoryBus(typeof (SomeHandler));
             var sut = bus.GetDispatcher();
             var command = new MyCommand();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CavemanTools.Infrastructure;
+using DomainBus;
 using FluentAssertions;
 using Xunit;
 
