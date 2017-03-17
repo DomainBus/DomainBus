@@ -2,9 +2,13 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
+using CavemanTools.Infrastructure;
 
-namespace CavemanTools.Infrastructure
+namespace DomainBus
 {
+    /// <summary>
+    /// Should be singleton
+    /// </summary>
     public class CommandResultMediator : ICommandResultMediator
     {
 
@@ -100,7 +104,7 @@ namespace CavemanTools.Infrastructure
         /// </summary>
         /// <param name="mediator"></param>
         /// <param name="cmdId"></param>
-        public static void AddEmptyCommandResult(this ICommandResultMediator mediator, Guid cmdId)
+        public static void AddEmptyCommandResult(this IReturnCommandResult mediator, Guid cmdId)
         {
             mediator.AddResult(cmdId, new CommandResult());
         }
@@ -111,7 +115,7 @@ namespace CavemanTools.Infrastructure
         /// <param name="mediator"></param>
         /// <param name="cmdId"></param>
         /// <param name="configResult"></param>
-        public static void SetResult(this ICommandResultMediator mediator, Guid cmdId,Action<CommandResult> configResult)
+        public static void SetResult(this IReturnCommandResult mediator, Guid cmdId,Action<CommandResult> configResult)
         {
             configResult.MustNotBeNull();
             var result = new CommandResult();

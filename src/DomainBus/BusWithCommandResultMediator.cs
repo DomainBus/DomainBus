@@ -4,7 +4,7 @@ using CavemanTools.Infrastructure;
 
 namespace DomainBus
 {
-    public class BusWithCommandResultMediator : IRequestCommandResult
+    internal class BusWithCommandResultMediator : IRequestCommandResult
     {
         private readonly IDomainBus _bus;
         private readonly ICommandResultMediator _med;
