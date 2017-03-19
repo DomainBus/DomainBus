@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CavemanTools;
 using CavemanTools.Logging;
 using DomainBus.Abstractions;
 using DomainBus.Audit;
@@ -17,12 +18,22 @@ namespace DomainBus.Processing.Internals
     
         private ProcessorMessageCache _cache;
 
-        private Timer _timer;
+        private ITimer _timer;
         private TimeSpan _pollingInterval;
 
-        public ProcessingService(IStoreUnhandledMessages storage,Func<IProcessMessage> processorFactory,BusAuditor busAuditor,IFailedMessagesQueue errors)
+
+        public ProcessingService(IStoreUnhandledMessages storage, Func<IProcessMessage> processorFactory,
+            BusAuditor busAuditor, IFailedMessagesQueue errors):this(new DefaultTimer(),storage,processorFactory,busAuditor,errors)
+        {
+            
+        }
+
+        public ProcessingService(ITimer timer,IStoreUnhandledMessages storage,Func<IProcessMessage> processorFactory,BusAuditor busAuditor,IFailedMessagesQueue errors)
         {
             storage.MustNotBeNull();
+            _timer.MustNotBeNull();
+            _timer = timer;
+            _timer.SetHandler(o=>LoadMessages());
             _storage = storage;
             _processorFactory = processorFactory;
             _busAuditor = busAuditor;
@@ -43,17 +54,9 @@ namespace DomainBus.Processing.Internals
         }
 
 
-        void StartTimer()
-        {
-            _timer?.Dispose();
-            _timer=new Timer(Timer_Handler,null, 0.ToMiliseconds(), PollingInterval);            
-        }
+        
 
-        void StopTimer() 
-        {
-            _timer?.Dispose();
-            _timer = null;
-        }
+       
 
         private void Timer_Handler(object data)
         {
@@ -86,11 +89,13 @@ namespace DomainBus.Processing.Internals
         /// </summary>
         public TimeSpan PollingInterval
         {
-            get { return _pollingInterval; }
+            get { return _timer.Interval; }
             set
             {
-                _pollingInterval = value;
-                _timer?.Change(0.ToMiliseconds(), value);
+                var old = _timer.IsRunning;
+                _timer.Stop();
+                _timer.Interval = value;
+                if (old) _timer.Start();
             }
         }
 
@@ -107,7 +112,7 @@ namespace DomainBus.Processing.Internals
             _cancelSource = new CancellationTokenSource();
             IsPaused = false;
             if (loadInitialMessages)LoadMessages();
-            if (PollingEnabled) StartTimer();
+            if (PollingEnabled) _timer.Start();
             else
             {
                 this.LogInfo("Polling is disabled.");
@@ -148,7 +153,7 @@ namespace DomainBus.Processing.Internals
             if (IsPaused) return;
             _cancelSource.Cancel();
             
-            StopTimer();
+            _timer.Stop();
             
             _logName.LogInfo("Stopped");
             IsPaused = true;
@@ -264,7 +269,7 @@ namespace DomainBus.Processing.Internals
 
             _isDisposed = true;
             Stop();
-          
+            _timer.Dispose();
             _logName.LogInfo("Disposed");
         }
     }
