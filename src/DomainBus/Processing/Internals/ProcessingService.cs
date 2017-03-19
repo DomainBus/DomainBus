@@ -31,7 +31,7 @@ namespace DomainBus.Processing.Internals
         public ProcessingService(ITimer timer,IStoreUnhandledMessages storage,Func<IProcessMessage> processorFactory,BusAuditor busAuditor,IFailedMessagesQueue errors)
         {
             storage.MustNotBeNull();
-            _timer.MustNotBeNull();
+            timer.MustNotBeNull();
             _timer = timer;
             _timer.SetHandler(o=>LoadMessages());
             _storage = storage;

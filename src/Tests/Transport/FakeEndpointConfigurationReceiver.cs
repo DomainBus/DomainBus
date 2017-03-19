@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CavemanTools.Testing;
 using DomainBus.Dispatcher.Client;
 using DomainBus.Transport;
 
@@ -8,15 +9,15 @@ namespace Tests.Transport
     public class FakeEndpointConfigurationReceiver:AEndpointConfigurationReceiver
     {
         public List<EndpointMessagesConfig> Configs { get; }=new List<EndpointMessagesConfig>();
-        public FakeEndpointConfigurationReceiver()
+        public FakeEndpointConfigurationReceiver():base(new StubTimer())
         {
             Configs.AddRange(new EndpointMessagesConfig[]{new EndpointMessagesConfig(){}, });
         }
 
 
+
         protected override EndpointMessagesConfig[] GetConfigs()
         {
-           Stop();
            return Configs.ToArray();
         }
 

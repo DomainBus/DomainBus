@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CavemanTools.Testing;
 using DomainBus.Transport;
 
 
@@ -8,9 +9,9 @@ namespace Tests.Transport
     public class FakeClientMEssagesReceiver:AClientMessagesReceiver
     {
         public List<EnvelopeFromClient> Envelopes { get; }=new List<EnvelopeFromClient>();
-        public FakeClientMEssagesReceiver()
+        public FakeClientMEssagesReceiver():base(new StubTimer())
         {
-            PollingInterval = 50.ToMiliseconds();
+            
         }
 
         public void Add()
@@ -21,7 +22,6 @@ namespace Tests.Transport
     
         protected override EnvelopeFromClient[] GetMessages()
         {
-            Stop();
             return Envelopes.ToArray();
         }
 
