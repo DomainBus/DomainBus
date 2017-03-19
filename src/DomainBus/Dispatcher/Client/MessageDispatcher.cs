@@ -24,7 +24,7 @@ namespace DomainBus.Dispatcher.Client
             return _dispatch(commands);
         }
 
-        public void Publish(params IEvent[] events)
+        public async void Publish(params IEvent[] events)
         {
             if (events.Length == 0) return;
             if (events.Any(e => e.OperationId == null))
@@ -32,7 +32,8 @@ namespace DomainBus.Dispatcher.Client
                 this.LogError("All events must have OperationId set. You can use the Enrol method of a command to assign the SourceId for any event resulted from the command's handling.");
                 throw new InvalidOperationException("All events must have OperationId set. You can use the Enrol method of a command to assign the operation id for any event resulted from the command's handling.");
             }
-            _dispatch(events).Wait();
+
+            await _dispatch(events);
         }
 
         /// <exception cref="InvalidReservationCountException"></exception>
@@ -55,9 +56,9 @@ namespace DomainBus.Dispatcher.Client
             return guids;
         }
 
-        public void Send(params ICommand[] commands)
+        public async void Send(params ICommand[] commands)
         {
-            SendAsync(commands).Wait();
+            await SendAsync(commands).ConfigureFalse();
         }
 
     }

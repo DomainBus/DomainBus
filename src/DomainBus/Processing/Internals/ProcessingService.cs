@@ -123,14 +123,14 @@ namespace DomainBus.Processing.Internals
         public bool PollingEnabled { get; set; }
 
         object _sync=new object();
-        private Task _worker=Task.WhenAll();
+        private Task _worker;
 
         void SeedTasks()
         {
             
             lock (_sync)
-            {
-                if (!_worker.IsCompleted) return;
+            {                
+                if (_worker!=null && !_worker.IsCompleted) return;
                 _worker = Task
                             .Run(() => Processor(_cancelSource.Token),_cancelSource.Token)
                             .ContinueWith(AfterProcessorFinishes);                
@@ -255,7 +255,7 @@ namespace DomainBus.Processing.Internals
         /// </summary>
         public void WaitUntilWorkersFinish()
         {
-            _worker.Wait();
+            _worker?.Wait();
         }
 
         public void Dispose()
