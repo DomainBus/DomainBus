@@ -30,7 +30,7 @@
 
     
   <ItemGroup>
-    <PackageReference Include="CavemanTools" Version="4.8.0" />
+    <PackageReference Include="CavemanTools" Version="4.9.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">

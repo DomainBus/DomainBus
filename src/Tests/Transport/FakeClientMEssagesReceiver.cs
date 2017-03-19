@@ -10,7 +10,8 @@ namespace Tests.Transport
         public List<EnvelopeFromClient> Envelopes { get; }=new List<EnvelopeFromClient>();
         public FakeClientMEssagesReceiver()
         {
-            }
+            PollingInterval = 50.ToMiliseconds();
+        }
 
         public void Add()
         {

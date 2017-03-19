@@ -6,11 +6,7 @@ namespace DomainBus.Transport
     public abstract class AbstractPoller:IDisposable
     {
         private Timer _timer;
-
-        protected AbstractPoller()
-        {
-            //_timer = new Timer(Callback, null, -1.ToMiliseconds(), PollingInterval);            
-        }
+       
 
         protected abstract void Callback(object state);
 

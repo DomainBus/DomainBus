@@ -3,9 +3,10 @@ open Fake
 
 let projName="DomainBus"
 let projDir= "..\src" @@ projName
-let testDir="..\src" @@ "Tests\Tests.csproj"
+let testDir="..\src" @@ "Tests\\"
 
 let additionalPack=[]
+let useXunitRunner=true
 
 
 

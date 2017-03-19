@@ -82,8 +82,6 @@ namespace Tests.Dispatcher
                 Messages = new IMessage[] {myEvent,new OtherEvent()}
             };
 
-            EnvelopeToClient dest = null;
-          
             await _sut.Route(env);
 
             await _transporter.DidNotReceiveWithAnyArgs().Send(null);
