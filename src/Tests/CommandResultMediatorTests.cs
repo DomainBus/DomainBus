@@ -40,18 +40,14 @@ namespace Tests.Infrastructure
         }
 
         [Fact]
-        public void timeout_throws()
+        public  async Task timeout_throws()
         {
             var m = new CommandResultMediator();
             var l = m.GetListener(Guid.Empty, TimeSpan.FromMilliseconds(250));
+          
 
-            Task.Run(() =>
-            {
-                this.Sleep(TimeSpan.FromMilliseconds(840));
-                m.AddResult(Guid.Empty, new CommandResult());
-            });
-
-            l.Invoking(d => d.GetResult<CommandResult>().Wait()).ShouldThrow<TimeoutException>();
+            await Assert.ThrowsAsync<TimeoutException>(() => l.GetResult<CommandResult>());
+      
         }
 
 
