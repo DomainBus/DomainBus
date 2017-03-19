@@ -1,15 +1,38 @@
 ﻿using System;
 using System.Linq;
+using CavemanTools;
 using CavemanTools.Logging;
 using DomainBus.Dispatcher.Client;
 
 namespace DomainBus.Transport
 {
-    public abstract class AServerMessagesReceiver:AbstractPoller,IReceiveServerMessages
+    public abstract class AServerMessagesReceiver:IReceiveServerMessages,IDisposable
     {
+        /// <summary>
+        /// Timer used to implement polling. Default is every 30 seconds
+        /// </summary>
+        protected readonly ITimer Timer;
         private IDispatchReceivedMessages _dispatcher;
 
-        protected override void Callback(object state)
+
+        /// <summary>
+        /// Uses <see cref="System.Threading.Timer"/>
+        /// </summary>
+        protected AServerMessagesReceiver():this(new DefaultTimer())
+        {
+            
+        }
+
+        protected AServerMessagesReceiver(ITimer timer)
+        {
+            timer.MustNotBeNull();
+            Timer = timer;
+            Timer.SetHandler(Callback);
+            Timer.Interval = 30.ToSeconds();
+        }
+
+
+        protected void Callback(object state)
         {
             var items = GetMessages();
             items.ForEach(env =>
@@ -40,7 +63,12 @@ namespace DomainBus.Transport
         public void StartReceiving(IDispatchReceivedMessages dispatcher)
         {
             _dispatcher = dispatcher;
-            Start();
+            Timer.Start();
+        }
+
+        public void Dispose()
+        {
+            Timer.Dispose();
         }
     }
 }

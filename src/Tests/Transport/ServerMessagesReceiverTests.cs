@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CavemanTools;
 using CavemanTools.Logging;
 using DomainBus.Dispatcher.Client;
 using DomainBus.Dispatcher.Server;
@@ -19,10 +20,10 @@ namespace Tests.Transport
 
         public ServerMessagesReceiverTests()
         {
-           // LogManager.OutputToTrace();
-            _sut=new FakeServerMessageReceiver();
+
+            // LogManager.OutputToTrace();
+            _sut=new FakeServerMessageReceiver(new DefaultTimer());
             _sut.Add();
-            _sut.PollingInterval = 50.ToMiliseconds();
             _router = Substitute.For<IDispatchReceivedMessages>();
         }
 

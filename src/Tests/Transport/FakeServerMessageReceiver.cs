@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using CavemanTools;
+using CavemanTools.Testing;
 using DomainBus.Configuration;
 using DomainBus.Transport;
 
@@ -9,7 +11,7 @@ namespace Tests.Transport
     public class FakeServerMessageReceiver:AServerMessagesReceiver
     {
         public List<EnvelopeToClient> Envelopes { get; } = new List<EnvelopeToClient>();
-        public FakeServerMessageReceiver()
+        public FakeServerMessageReceiver(ITimer timer) :base(timer)
         {
             
         }
@@ -20,7 +22,6 @@ namespace Tests.Transport
         }
         protected override EnvelopeToClient[] GetMessages()
         {
-            Stop();
             return Envelopes.ToArray();
         }
         public EnvelopeToClient Handled { get; private set; }
