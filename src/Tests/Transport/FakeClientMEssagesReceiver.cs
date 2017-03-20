@@ -18,8 +18,8 @@ namespace Tests.Transport
         {
             Envelopes.Add(new EnvelopeFromClient(){From = "remote",Id = Guid.NewGuid(),Messages = new []{new MyCommand(), }});
         }
+        public void Next() => Timer.CastAs<StubTimer>().InvokeHandler();
 
-    
         protected override EnvelopeFromClient[] GetMessages()
         {
             return Envelopes.ToArray();

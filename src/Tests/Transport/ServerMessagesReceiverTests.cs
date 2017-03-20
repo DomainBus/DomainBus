@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using CavemanTools;
 using CavemanTools.Logging;
 using DomainBus.Dispatcher.Client;
-using DomainBus.Dispatcher.Server;
 using DomainBus.Transport;
 using FluentAssertions;
 using NSubstitute;

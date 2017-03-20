@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CavemanTools.Testing;
 using DomainBus.Dispatcher.Client;
 using DomainBus.Transport;
@@ -14,7 +15,7 @@ namespace Tests.Transport
             Configs.AddRange(new EndpointMessagesConfig[]{new EndpointMessagesConfig(){}, });
         }
 
-
+        public void Next() => Timer.CastAs<StubTimer>().InvokeHandler();
 
         protected override EndpointMessagesConfig[] GetConfigs()
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using CavemanTools;
 using CavemanTools.Logging;
 using DomainBus.Dispatcher.Server;
@@ -32,20 +33,12 @@ namespace DomainBus.Transport
         {
             var items = GetMessages();
 
-            items.ForEach(d =>
+            items.ForEach(async d =>
             {
                 try
                 {
-                    var t = _server.Route(d);
-                    t.ContinueWith((tsk) =>
-                    {
-                        if (!tsk.IsFaulted)
-                        {
-                            MarkAsHandled(d);
-                            return;
-                        }
-                        this.LogError(tsk.Exception);
-                    });
+                    await _server.Route(d).ConfigureFalse();
+                    MarkAsHandled(d);                    
                 }
                 catch (Exception ex)
                 {
