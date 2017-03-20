@@ -9,7 +9,6 @@ namespace DomainBus.Processing.Internals
     public class ProcessorMessageCache
     {
        
-        //List<IMessage> _cache=new List<IMessage>();
         Queue<IMessage> _cache=new Queue<IMessage>();
 
         HashSet<Guid> _set=new HashSet<Guid>();
@@ -27,8 +26,6 @@ namespace DomainBus.Processing.Internals
             {
                 msgs.Where(m => _set.Add(m.Id))
                     .ForEach(m=>_cache.Enqueue(m));
-                
-                //_cache.AddRange(msgs.Where(m => _set.Add(m.Id)));                               
             }                        
         }
 
@@ -49,8 +46,7 @@ namespace DomainBus.Processing.Internals
         {
            lock (_sync)
            {
-                
-             //   _cache.Remove(msg);
+                             
                 if (_set.Remove(msg.Id))
                 {
                     this.LogDebug($"Message with id {msg} removed from cache");

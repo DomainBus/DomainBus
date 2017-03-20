@@ -33,7 +33,7 @@ namespace DomainBus.Processing.Internals
             storage.MustNotBeNull();
             timer.MustNotBeNull();
             _timer = timer;
-            _timer.SetHandler(o=>LoadMessages());
+            _timer.SetHandler(Timer_Handler);
             _storage = storage;
             _processorFactory = processorFactory;
             _busAuditor = busAuditor;

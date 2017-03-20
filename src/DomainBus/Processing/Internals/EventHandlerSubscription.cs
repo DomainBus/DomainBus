@@ -24,25 +24,7 @@ namespace DomainBus.Processing.Internals
         public void Handle(IMessage msg,string processor)
         {
            SortHandlers();
-
-            Handlers.ForEach(h=>h.Handle(msg,processor));
-
-            //List<Exception> list = new List<Exception>();
-            
-            //foreach (var handler in Handlers)
-            //{
-            //    try
-            //    {
-            //         handler.Handle(msg,processor);
-            //    }
-              
-            //    catch (HandledMessageException ex)
-            //    {
-                   
-            //        list.Add(ex);
-            //    }
-            //}
-            //if (list.Count > 0) throw new EventHandlingException(list);
+            Handlers.ForEach(h=>h.Handle(msg,processor));  
         }
 
         private void SortHandlers()

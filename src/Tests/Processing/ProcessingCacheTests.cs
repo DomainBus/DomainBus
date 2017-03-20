@@ -27,15 +27,7 @@ namespace Tests.Processing
             _sut.Cache.Count().Should().Be(1);
         }
 
-
-        //[Fact]
-        //public void next_message_has_the_earliest_timestamp()
-        //{
-        //    var myCommand = new MyCommand();
-        //    _sut.Add(new IMessage[1] {myCommand});
-        //    _sut.GetNextMessage().Should().Be(myCommand);
-        //}
-
+       
         [Fact]
         public void message_is_removed_from_cache()
         {
