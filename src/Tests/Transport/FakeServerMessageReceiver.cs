@@ -11,10 +11,12 @@ namespace Tests.Transport
     public class FakeServerMessageReceiver:AServerMessagesReceiver
     {
         public List<EnvelopeToClient> Envelopes { get; } = new List<EnvelopeToClient>();
-        public FakeServerMessageReceiver(ITimer timer) :base(timer)
+        public FakeServerMessageReceiver() :base(new StubTimer())
         {
             
         }
+
+        public void Next()=> Timer.CastAs<StubTimer>().InvokeHandler();
 
         public void Add()
         {

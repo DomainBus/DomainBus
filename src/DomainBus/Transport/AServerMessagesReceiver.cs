@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using CavemanTools;
 using CavemanTools.Logging;
 using DomainBus.Dispatcher.Client;
@@ -34,21 +35,15 @@ namespace DomainBus.Transport
 
         protected void Callback(object state)
         {
+            
             var items = GetMessages();
-            items.ForEach(env =>
+            
+            items.ForEach(async env =>
             {
                 try
                 {
-                    var t = _dispatcher.DeliverToLocalProcessors(env);
-                    t.ContinueWith(tsk =>
-                    {
-                        if (!tsk.IsFaulted)
-                        {
-                            MarkAsHandled(env);
-                            return;
-                        }
-                        this.LogError(tsk.Exception);
-                    });
+                    await _dispatcher.DeliverToLocalProcessors(env).ConfigureFalse();
+                    MarkAsHandled(env);                    
                 }
                 catch (Exception ex)
                 {

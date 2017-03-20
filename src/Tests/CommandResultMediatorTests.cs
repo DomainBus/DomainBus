@@ -52,20 +52,14 @@ namespace Tests.Infrastructure
 
 
         [Fact]
-        public async Task if_timeout_listener_is_removed()
+        public async Task if_timeout_then_listener_is_removed()
         {
             var m = new CommandResultMediator();
             var l = m.GetListener(Guid.Empty, TimeSpan.FromMilliseconds(250));
+            m.ActiveListeners.Should().Be(1);
 
-            var t = Task.Run(() =>
-              {
-                  this.Sleep(TimeSpan.FromMilliseconds(840));
-                  m.AddResult(Guid.Empty, new CommandResult());
-              });
-
-            try
+           try
             {
-                m.ActiveListeners.Should().Be(1);
                 await l.GetResult<CommandResult>();
                 throw new Exception("Should not be thrown");
             }
@@ -73,7 +67,7 @@ namespace Tests.Infrastructure
             {
                 m.ActiveListeners.Should().Be(0);
             }
-            await t;
+            
         }
     }
 }
