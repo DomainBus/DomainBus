@@ -16,7 +16,7 @@ let nugetExeDir="tools"
 let outDir=combinePaths currentDirectory <|"artifacts" 
 
 let dotnet="dotnet.exe"
-let xunitRunnerPath= currentDirectory @@ "tools/xunit.runner.console/tools/xunit.console.exe"
+
 let nugetServer= "https://www.nuget.org/api/v2/package"
 
 let restore (proj:string)= 
@@ -33,12 +33,7 @@ let compile proj= ExecProcess(fun c ->
                                         c.Arguments<-("build "+proj+ " -c release"))
                                         (TimeSpan.FromMinutes 5.0)
 
-let runTests dir= 
-    
-    let runner= if useXunitRunner then 
-                    (xunitRunnerPath,dir+"")
-                    else 
-                    (dotnet,"test  \""+dir+"\\Tests.csproj\"")                     
+let runTests dir=                           
     let result = ExecProcess(fun c -> 
                                         c.FileName<- dotnet
                                         c.Arguments<-("test  \""+dir+"\\Tests.csproj\""))(TimeSpan.FromMinutes 5.0)

@@ -6,7 +6,7 @@ let projDir= "..\src" @@ projName
 let testDir="..\src" @@ "Tests\\"
 
 let additionalPack=[]
-let useXunitRunner=true
+
 
 
 
