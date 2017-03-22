@@ -31,50 +31,43 @@ namespace Tests
             }
         }
 
-        public class TEstBuilder : AbstractBusBuilder
+        public class TestContainerBuilder : IRegisterBusTypesInContainer
         {
-            public TEstBuilder()
+            public static TestContainerBuilder Instance= new TestContainerBuilder();
+
+            public TestContainerBuilder()
             {
                 
             }
-            protected override void RegisterSingletonInstance<T>(T instance)
+                    
+            public void RegisterSingletonInstance<T>(T instance)
             {
                 
             }
 
-            protected override void Register(IEnumerable<Type> types,bool sginle=false)
+            public void Register(IEnumerable<Type> types, bool asSingleton = false)
             {
                 
             }
 
-            protected override void RegisterInstanceFactory<T>(Func<T> instance)
+            public void RegisterInstanceFactory<T>(Func<T> instance)
             {
                 
-            }
-
-            protected override void ContainerConfigurationCompleted()
-            {
-                
-            }
-
-            protected override IContainerScope BuildContainerScope()
-            {
-                return ActivatorContainer.Instance;
             }
         }
 
         [Fact]
         public void using_memory_bus()
         {
-            LogManager.OutputTo(s=>Debug.WriteLine(s));
-            var bus = ServiceBus.ConfigureWith(new TEstBuilder()).AsMemoryBus(typeof (SomeHandler));
+            ServiceBus.ConfigureAsMemoryBus(TestContainerBuilder.Instance, typeof(SomeHandler));
+            var bus = ServiceBus.Build(ActivatorContainer.Instance);
             var sut = bus.GetDispatcher();
             var command = new MyCommand();
             sut.Send(command);
-            bus.GetProcessingQueue("memorybus").WaitUntilWorkersFinish();
+            bus.GetProcessingQueue(ServiceBus.MemoryProcessor).WaitUntilWorkersFinish();
             _results.Contains(typeof(MyCommand)).Should().BeTrue();
             sut.Publish(new MyEvent().EnrolInOperation(command));
-            bus.GetProcessingQueue("memorybus").WaitUntilWorkersFinish();
+            bus.GetProcessingQueue(ServiceBus.MemoryProcessor).WaitUntilWorkersFinish();
             _results.Contains(typeof(MyEvent)).Should().BeTrue();
 
         }

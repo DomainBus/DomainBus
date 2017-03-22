@@ -48,15 +48,24 @@ namespace DomainBus
 
         /// <summary>
         /// Should be used for testing/development/debugging. NOT recommended for production.
+        /// </summary>
+        /// <param name="containerCfg"></param>
+        /// <param name="asms">Assemblies containing message handlers</param>
+        public static void ConfigureAsMemoryBus(IRegisterBusTypesInContainer containerCfg, params Assembly[] asms)
+        {
+            ConfigureAsMemoryBus(containerCfg, asms.SelectMany(a => a.GetExportedTypes().Where(BusBuilderExtensions.IsMessageHandler)).ToArray());            
+        }
+
+        /// <summary>
+        /// Should be used for testing/development/debugging. NOT recommended for production.
         /// 
         /// </summary>
         /// <param name="containerCfg">Container builder</param>
-        /// <param name="asms">Assemblies containing message handlers</param>
-        public static void ConfigureAsMemoryBus(IRegisterBusTypesInContainer containerCfg,params Assembly[] asms)
+        /// <param name="handlerTypes"></param>
+        public static void ConfigureAsMemoryBus(IRegisterBusTypesInContainer containerCfg,params Type[] handlerTypes)
         {                
               ConfigureForMonolith(cfg =>
               {
-                  var handlerTypes = asms.SelectMany(a => a.GetExportedTypes().Where(BusBuilderExtensions.IsMessageHandler)).ToArray();
                   cfg
                   .RegisterTypesInContainer(containerCfg)
                   .WithInMemoryAudits()
