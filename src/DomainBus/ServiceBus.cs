@@ -41,9 +41,10 @@ namespace DomainBus
         /// Bus will be configured for 1 process, non-distributed app
         /// </summary>
         /// <param name="cfgHost"></param>
-        public static void ConfigureForMonolith(Action<IConfigureHost> cfgHost)
+        public static IBuildBus ConfigureForMonolith(Action<IConfigureHost> cfgHost)
         {
-            Configure(c => cfgHost(c.LocalHost()),s=>s.LocalDispatcher());   
+            Configure(c => cfgHost(c.LocalHost()),s=>s.LocalDispatcher());
+            return configurator;
         }
 
         /// <summary>
@@ -51,9 +52,9 @@ namespace DomainBus
         /// </summary>
         /// <param name="containerCfg"></param>
         /// <param name="asms">Assemblies containing message handlers</param>
-        public static void ConfigureAsMemoryBus(IRegisterBusTypesInContainer containerCfg, params Assembly[] asms)
+        public static IBuildBus ConfigureAsMemoryBus(IRegisterBusTypesInContainer containerCfg, params Assembly[] asms)
         {
-            ConfigureAsMemoryBus(containerCfg, asms.SelectMany(a => a.GetExportedTypes().Where(BusBuilderExtensions.IsMessageHandler)).ToArray());            
+            return ConfigureAsMemoryBus(containerCfg, asms.SelectMany(a => a.GetExportedTypes().Where(BusBuilderExtensions.IsMessageHandler)).ToArray());            
         }
 
         /// <summary>
@@ -62,9 +63,9 @@ namespace DomainBus
         /// </summary>
         /// <param name="containerCfg">Container builder</param>
         /// <param name="handlerTypes"></param>
-        public static void ConfigureAsMemoryBus(IRegisterBusTypesInContainer containerCfg,params Type[] handlerTypes)
+        public static IBuildBus ConfigureAsMemoryBus(IRegisterBusTypesInContainer containerCfg,params Type[] handlerTypes)
         {                
-              ConfigureForMonolith(cfg =>
+              return ConfigureForMonolith(cfg =>
               {
                   cfg
                   .RegisterTypesInContainer(containerCfg)
@@ -79,9 +80,10 @@ namespace DomainBus
         /// </summary>
         /// <param name="cfgHost"></param>
         /// <param name="cfgServer"></param>
-        public static void Configure(Action<IConfigureHost> cfgHost, Action<IConfigureDispatcher> cfgServer)
+        public static IBuildBus Configure(Action<IConfigureHost> cfgHost, Action<IConfigureDispatcher> cfgServer)
         {
-            configurator=new BusConfigurator(cfgHost,cfgServer);  
+            configurator=new BusConfigurator(cfgHost,cfgServer);
+            return configurator;
         }
 
          /// <summary>
@@ -142,5 +144,9 @@ namespace DomainBus
         
     }
 
+    public interface IBuildBus
+    {
+        IDomainBus Build(IContainerScope container);
+    }
    
 }

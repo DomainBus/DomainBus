@@ -10,7 +10,7 @@ using DomainBus.Transport;
 
 namespace DomainBus.Configuration
 {
-    internal class BusConfigurator
+    internal class BusConfigurator:IBuildBus
     {
        
         private DispatcherBuilder _dispBuilder;
