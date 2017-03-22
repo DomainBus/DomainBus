@@ -32,7 +32,7 @@ namespace DomainBus
         /// <summary>
         /// Creates an instance (that should be registered as singleton in a DI Container) of a mediator 
         /// which waits for a command handler result, executed by the domain bus in the same process.
-        /// The command handler will need to take <see cref="ICommandResultMediator"/> as a dependency to communicate the result
+        /// The command handler will need to take <see cref="IReturnCommandResult"/> as a dependency to communicate the result
         /// in the form of <see cref="CommandResult"/>. If you don't need a result, better use <see cref="IDispatchMessages"/> instead.
         /// This feature is useless in distributed apps.
         /// </summary>
