@@ -18,7 +18,7 @@ namespace DomainBus.Configuration
         /// </summary>
         /// <param name="types"></param>
         /// <param name="asSingleton"></param>
-        void Register(IEnumerable<Type> types, bool asSingleton = false);
+        void Register(Type[] types, bool asSingleton = false);
 
         /// <summary>
         ///  Register lambda as factory for specified type

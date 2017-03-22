@@ -50,11 +50,11 @@ namespace DomainBus.Configuration
             _host.Handlers.MustNotBeNull("Handlers are null");
             _host.SagaStateTypes.MustNotBeNull("Saga state types are null");
             Func<Type, bool> isSingleton = t => t.HasCustomAttribute<SingletonHandlerAttribute>();
-            cb.Register(_host.Handlers.Where(t => !isSingleton(t)));
-            cb.Register(_host.Handlers.Where(t => isSingleton(t)), true);
+            cb.Register(_host.Handlers.Where(t => !isSingleton(t)).ToArray());
+            cb.Register(_host.Handlers.Where(t => isSingleton(t)).ToArray(), true);
 
             cb.Register(_host.SagaStateTypes);
-            cb.Register(_host.SagaStateTypes);
+            
             cb.RegisterSingletonInstance(_bus);
             cb.RegisterInstanceFactory(_bus.GetDispatcher);
         }
