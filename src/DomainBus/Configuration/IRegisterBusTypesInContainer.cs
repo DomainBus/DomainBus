@@ -1,19 +1,9 @@
 using System;
 using System.Collections.Generic;
-using CavemanTools.Infrastructure;
 
 namespace DomainBus.Configuration
 {
-    //public interface IBuildBusWithContainer
-    //{
-      
-    //    IBuildBusWithContainer ServerComunication(Action<IConfigureDispatcher> cfg);
-
-    //    IBuildBusWithContainer CurrentHost(Action<IConfigureHost> cfg);
-
-      
-    //}
-
+   
     public interface IRegisterBusTypesInContainer
     {
         /// <summary>

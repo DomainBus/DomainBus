@@ -32,8 +32,6 @@ namespace DomainBus
             return saga;
         }
 
-        //  public static void Set<T>(this ASagaState state, string key, T value) => state.RawData[key] = value;
-
         public static T Get<T>(this ASagaState state, string key, T defValue = default(T))
             => state.RawData.GetValue(key, defValue);
 

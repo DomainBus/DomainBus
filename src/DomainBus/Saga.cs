@@ -7,6 +7,10 @@ using DomainBus.Processing;
 
 namespace DomainBus
 {
+    /// <summary>
+    /// Base class for sagas
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class Saga<T> where T : ISagaState
     {
         public T Data { get; internal set; }

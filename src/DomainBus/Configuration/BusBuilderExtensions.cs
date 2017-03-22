@@ -6,7 +6,6 @@ using DomainBus.Audit;
 using DomainBus.Configuration.Internals;
 using DomainBus.Dispatcher.Client;
 using DomainBus.Processing;
-using DomainBus.Repositories;
 using DomainBus.Transport;
 
 namespace DomainBus.Configuration

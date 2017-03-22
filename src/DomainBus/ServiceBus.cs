@@ -111,10 +111,7 @@ namespace DomainBus
             
         }
 
-        public void StartListeningForMessages()
-        {
-            _receiver.StartReceiving(_client);
-        }
+        public void StartListeningForMessages() => _receiver.StartReceiving(_client);
 
         public IDispatchMessages GetDispatcher() => new MessageDispatcher(_client.Dispatch,_host.GetStorage<IStoreReservedMessagesIds>());
         public IDispatchReceivedMessages GetReceiver() => _client;
