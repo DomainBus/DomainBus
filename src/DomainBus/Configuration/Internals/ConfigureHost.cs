@@ -124,7 +124,7 @@ namespace DomainBus.Configuration.Internals
            
         }
 
-        public IEnumerable<Type> SagaStateTypes { get; private set; }  =Enumerable.Empty<Type>();
+        public Type[] SagaStateTypes { get; private set; }  =new Type[0];
 
         private void AddSagaStates(Type[] types)
             => SagaStateTypes = types.Where(t => t.IsSagaState()).ToArray();

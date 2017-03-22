@@ -45,7 +45,7 @@ namespace Tests
                 
             }
 
-            public void Register(IEnumerable<Type> types, bool asSingleton = false)
+            public void Register(Type[] types, bool asSingleton = false)
             {
                 
             }
