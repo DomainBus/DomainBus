@@ -16,7 +16,9 @@ namespace DomainBus.Configuration.Internals
 
         public ConfigureHost()
         {
-           RequiredStorages.ForEach(t=>_storages[t]=NullStorage.Instance);            
+           RequiredStorages.ForEach(t=>_storages[t]=NullStorage.Instance);
+            
+            
         }
 
         public static readonly Type[] RequiredStorages =
@@ -29,6 +31,8 @@ namespace DomainBus.Configuration.Internals
             ,typeof(IDeliveryErrorsQueue)
                 
         };
+
+        public IRegisterBusTypesInContainer ContainerBuilder => _containerBuilder;
 
         #region Implementation of IConfigureHost
 
@@ -110,6 +114,7 @@ namespace DomainBus.Configuration.Internals
         internal void VerifyWeHaveAll()
         {
             _hostName.MustNotBeEmpty();
+            _containerBuilder.MustNotBeNull(ex: new DomainBusConfigurationException("Missing an implementation of IRegisterBusTypesInContainer"));
             Processors.Verify();
             var missing=_storages
                 .Where(kv => kv.Value == null)
@@ -147,6 +152,7 @@ namespace DomainBus.Configuration.Internals
         #region Implementation of IConfigureSagas
 
         internal bool UseUserDefinedSagaRepos;
+        private IRegisterBusTypesInContainer _containerBuilder;
 
         IConfigureSagas IConfigureSagas.EnableUserDefinedRepositories()
         {
@@ -157,6 +163,14 @@ namespace DomainBus.Configuration.Internals
         IConfigureSagas IConfigureSagas.WithSagaStorage(IStoreSagaState store)
         {
             _storages[typeof (IStoreSagaState)] = store;
+            return this;
+        }
+
+        
+        public IConfigureHost RegisterTypesInContainer(IRegisterBusTypesInContainer containerBuilder)
+        {
+            containerBuilder.MustNotBeNull();
+            _containerBuilder = containerBuilder;
             return this;
         }
 

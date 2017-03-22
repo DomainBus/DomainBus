@@ -23,8 +23,7 @@ namespace DomainBus
         
         void StartProcessors();
 
-        IContainerScope Container { get; }
-
+     
         void StartListeningForMessages();
     }
 
@@ -55,4 +54,13 @@ namespace DomainBus
         public static IStoreAndPublishEvents CreateEventsStoreAndPublisher(this IDomainBus bus,IAppendEventsToStore store)
             =>new EventsStoreAndPublisher(bus.GetDispatcher(),store);
     }
+
+    //public interface IRegisterExtrasInContainer
+    //{
+    //    /// <summary>
+    //    /// Register<see cref="CommandResultMediator"/> as self, as interfaces <see cref="ICommandResultMediator"/>, singleton.
+    //    /// It should register <see cref="IRequestCommandResult"/> as singleton, created by <code> bus.GetCommandResultMediator()</code>
+    //    /// </summary>
+    //    void RegisterCommandResultMediator();
+    //}
 }

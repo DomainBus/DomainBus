@@ -79,36 +79,9 @@ namespace DomainBus.Configuration
         /// </summary>
         /// <param name="cfg"></param>
         /// <returns></returns>
-        public static IConfigureDispatcher LocalDispatcher(this IConfigureDispatcher cfg) => cfg.TalkUsing(NullServerConnector.Instance);
-
-       
-      
-
-      
-        /// <summary>
-        /// Configures the domain bus strictly as a (non-durable)memory bus. Idempotency is not enforced and sagas shouldn't be used
-        /// </summary>
-        /// <param name="build"></param>
-        /// <returns></returns>
-        public static IDomainBus AsMemoryBus(this IBuildBusWithContainer build, params Assembly[] assemblies) 
-            => build.AsMemoryBus(assemblies.SelectMany(a => a.GetExportedTypes().Where(IsMessageHandler)).ToArray());
-
-       
-        /// <summary>
-        /// Configures the domain bus strictly as a (non-durable)memory bus. Idempotency is not enforced and sagas shouldn't be used
-        /// </summary>
-        /// <param name="build"></param>
-        /// <param name="handlerTypes">handlers used by memory bus</param>
-        /// <returns></returns>
-        public static IDomainBus AsMemoryBus(this IBuildBusWithContainer build, params Type[] handlerTypes)
-            => build.ForMonolith(c =>
-           
-                c.HostnameIs("local")
-                .AutoConfigureFrom(handlerTypes)
-                .ConfigureProcessors(
-                    procs=>procs.Add("memorybus",endpoint=>endpoint.HandleOnly(handlerTypes)))
-           );
-
+        public static IConfigureDispatcher LocalDispatcher(this IConfigureDispatcher cfg) => cfg.TalkUsing(NullServerConnector.Instance).ReceiveMessagesUsing(NullReceiver.Instance);
+        
+            
         /// <summary>
         /// ONLY for development/debugging scenarios
         /// </summary>
@@ -117,8 +90,7 @@ namespace DomainBus.Configuration
         public static IConfigureHost WithInMemoryAudits(this IConfigureHost host)
             => host.PersistAuditsWith(new InMemoryAuditStorage());
 
-        public static IConfigureHost WithoutSagas(this IConfigureHost host)
-            => host.ConfigureSagas(d => d.WithoutSagas());
+        
         /// <summary>
         /// Autoconfiguration from types of the provided assemblies
         /// </summary>
@@ -129,35 +101,18 @@ namespace DomainBus.Configuration
             =>
                 host.AutoConfigureFrom(asms.SelectMany(a => a.GetExportedTypes()));
 
-
-        public static IConfigureHost WithoutAuditor(this IConfigureHost host)
-            => host.PersistAuditsWith(NullStorage.Instance);
-
+       
+        /// <summary>
+        /// Sets host name to 'local'. For monolith mode
+        /// </summary>
+        /// <param name="host"></param>
+        /// <returns></returns>
         public static IConfigureHost LocalHost(this IConfigureHost host)
             => host.HostnameIs("local");
 
-        public static IConfigureHost WithoutErrorsQueues(this IConfigureHost host)
-            => host.SendFailedDeliveriesTo(NullStorage.Instance).SendFailedMessagesTo(NullStorage.Instance);
+       
 
-        public static IConfigureSagas WithoutSagas(this IConfigureSagas host)
-            => host.WithSagaStorage(NullStorage.Instance);
-
-        /// <summary>
-        /// Bus works in monolith mode. You still have to configure processing enpoints and storages
-        /// </summary>
-        /// <param name="build"></param>
-        /// <param name="config"></param>
-        /// <returns></returns>
-        public static IDomainBus ForMonolith(this IBuildBusWithContainer build, Action<IConfigureHost> config)
-            =>
-                build
-                    .ServerComunication(
-                        c => c.ReceiveMessagesUsing(NullReceiver.Instance).TalkUsing(NullServerConnector.Instance))
-                    .CurrentHost(d =>
-                    {
-                        config(d.LocalHost());
-                    })
-                    .Build();
+      
        
 
     }

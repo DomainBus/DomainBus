@@ -7,6 +7,12 @@ using DomainBus.Transport;
 
 namespace DomainBus.Configuration
 {
+    /// <summary>
+    /// Must be configured: container integration, handler types and processors.
+    /// 
+    /// Optional: (recommended)processing storage (with reserve id storage), saga storage, audit storage, error queues
+    /// 
+    /// </summary>
     public interface IConfigureHost
     {
         /// <summary>
@@ -47,7 +53,13 @@ namespace DomainBus.Configuration
         /// <returns></returns>
         IConfigureHost HostnameIs(string name);
         IConfigureHost ConfigureSagas(Action<IConfigureSagas> cfg);
-       
+
+        /// <summary>
+        /// First step of integration with a DI Container
+        /// </summary>
+        /// <param name="containerBuilder"></param>
+        /// <returns></returns>
+        IConfigureHost RegisterTypesInContainer(IRegisterBusTypesInContainer containerBuilder);
 
         /// <summary>
         /// DomainBus will automatically identify and use message handlers and saga states from the specified types
