@@ -32,6 +32,12 @@ namespace DomainBus
             return saga;
         }
 
+        public static void CheckIfCompleted<T>(this Saga<T> saga) where T:ISagaState
+        {
+            if (saga.Completion(saga.Data)) saga.MarkAsCompleted();
+        }
+            
+
         public static T Get<T>(this ASagaState state, string key, T defValue = default(T))
             => state.RawData.GetValue(key, defValue);
 
@@ -55,7 +61,7 @@ namespace DomainBus
         public static void Set<T, V>(this Saga<T> saga, string key, V value) where T : ASagaState
         {
             saga.Data.RawData[key] = value;
-            if (saga.Completion(saga.Data)) saga.MarkAsCompleted();
+           CheckIfCompleted(saga);
         }
     }
 }
