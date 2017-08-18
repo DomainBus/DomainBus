@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CavemanTools;
 using CavemanTools.Infrastructure;
 using DomainBus.Audit;
 using DomainBus.Dispatcher;
@@ -11,7 +12,7 @@ using DomainBus.Transport;
 
 namespace DomainBus.Configuration.Internals
 {
-    class ConfigureHost : IConfigureHost,IConfigureSagas
+    class ConfigureHost : IConfigureHost,IConfigureSagas,IConfigureLocalRelay
     {
 
         public ConfigureHost()
@@ -140,6 +141,12 @@ namespace DomainBus.Configuration.Internals
             return this;
         }
 
+        public IConfigureHost RelayEventsLocally(Action<IConfigureLocalRelay> cfg)
+        {
+           cfg(this);
+           return this;
+        }
+
         public EndpointConfig[] Endpoints { get; private set; }
 
         public void Build(IContainerScope container,BusAuditor auditor)
@@ -175,5 +182,13 @@ namespace DomainBus.Configuration.Internals
         }
 
         #endregion
+
+        internal Action<IEvent> Relayer { get; set; } = Empty.ActionOf<IEvent>();
+        public IConfigureLocalRelay Send(Action<IEvent> action)
+        {
+            action.MustNotBeNull();
+            Relayer = action;
+            return this;
+        }
     }
 }

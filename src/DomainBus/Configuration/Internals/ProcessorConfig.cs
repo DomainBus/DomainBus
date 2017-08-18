@@ -35,8 +35,8 @@ namespace DomainBus.Configuration.Internals
             var ep = ec.Key;
             var nexus = new MessageHandlersNexus(container,auditor,host);
             nexus.Add(host.Handlers.Where(ep.CanHandle).ToArray());
-
-            var processor = new ProcessingService(host.GetStorage<IStoreUnhandledMessages>(), () => new MessageProcessor(nexus), auditor,host.GetStorage<IFailedMessagesQueue>());
+            var relayer=new RelayLocalEvents(host.Relayer);
+            var processor = new ProcessingService(host.GetStorage<IStoreUnhandledMessages>(), () => new MessageProcessor(nexus,relayer), auditor,host.GetStorage<IFailedMessagesQueue>());
             ec.Value(processor);
 
             var config = new EndpointConfig(processor);

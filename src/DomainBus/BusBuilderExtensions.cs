@@ -3,12 +3,13 @@ using System.Linq;
 using System.Reflection;
 using DomainBus.Abstractions;
 using DomainBus.Audit;
+using DomainBus.Configuration;
 using DomainBus.Configuration.Internals;
 using DomainBus.Dispatcher.Client;
 using DomainBus.Processing;
 using DomainBus.Transport;
 
-namespace DomainBus.Configuration
+namespace DomainBus
 {
    
     public static class BusBuilderExtensions
@@ -32,7 +33,7 @@ namespace DomainBus.Configuration
         public static bool IsSagaState(this Type type) => type.Implements<ISagaState>() && !type.GetTypeInfo().IsAbstract;
 
         public static bool IsSagaRelatedStorage(this Type type)
-            =>SagaStorageTypes.Contains(type);
+            =>Enumerable.Contains(SagaStorageTypes, type);
 
         public static bool IsUserSagaRepository(this Type type)
         {
@@ -51,8 +52,21 @@ namespace DomainBus.Configuration
         /// <param name="svcCfg"></param>
         /// <returns></returns>
         public static IConfigureProcessors AddWithAttributeConvention(this IConfigureProcessors procs, string name,
-            Assembly assembly, Action<IConfigureProcessingService> svcCfg = null)
+            Action<IConfigureProcessingService> svcCfg = null)
             => procs.Add(name, c => c.HandleAtributeDecorated(), svcCfg);
+
+        /// <summary>
+        /// Sets up 2 message processors identified by <see cref="ServiceBus.CommandsProcessor"/> and <see cref="ServiceBus.EventsProcessor"/>
+        /// without polling i.e for non-distributed apps
+        /// </summary>
+        /// <param name="procs"></param>
+        /// <param name="enablePolling"></param>
+        /// <returns></returns>
+        public static IConfigureHost DefaultProcessors(this IConfigureHost procs,bool enablePolling=false)
+        {
+            return procs.ConfigureProcessors(p => p.AddWithAttributeConvention(ServiceBus.CommandsProcessor,s=>s.PollingEnabled=enablePolling)
+                .AddWithAttributeConvention(ServiceBus.EventsProcessor,s=>s.PollingEnabled=enablePolling));
+        }
 
         /// <summary>
         /// Adds a processor which must be configured with the handlers the processor should execute

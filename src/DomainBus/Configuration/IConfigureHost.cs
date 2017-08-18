@@ -74,6 +74,18 @@ namespace DomainBus.Configuration
         /// <returns></returns>
         IConfigureHost ConfigureProcessors(Action<IConfigureProcessors> cfg);
 
+        /// <summary>
+        /// Relays all events decorated . Available only for local host.
+        /// </summary>
+        /// <param name="cfg"></param>
+        /// <returns></returns>
+        IConfigureHost RelayEventsLocally(Action<IConfigureLocalRelay> cfg);
+
+    }
+
+    public interface IConfigureLocalRelay
+    {
+        IConfigureLocalRelay Send(Action<IEvent> action);
     }
 
     public interface IConfigureSagas

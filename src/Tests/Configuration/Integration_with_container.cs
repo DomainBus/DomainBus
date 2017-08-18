@@ -39,6 +39,7 @@ namespace Tests.Configuration
         public void bus_is_registered()
         {
             _container.Received(1).RegisterSingletonInstance(Arg.Any<IDomainBus>());
+          
         }
 
 
